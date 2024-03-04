@@ -32,6 +32,10 @@ The project consist of two major parts:
 
 <br>
 
+The **Console** serves as the core foundation for this project. Building a CLI allows us to directly interact with the system, receive immediate feedback on actions and understand how commands translate into program logic. This makes the **Console** a valuable tool for testing and debugging our code efficiently.
+
+Following are some examples of using the Console both interactively and non-interactively.
+
 - Interactive mode:
 
 ```sh
