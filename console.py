@@ -2,7 +2,6 @@
 import cmd
 from datetime import datetime
 from models.base_model import BaseModel
-from models.engine import storage
 from models.user import User
 
 
