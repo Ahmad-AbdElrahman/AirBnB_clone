@@ -26,6 +26,7 @@ This is an overview diagram representing the project workflow.
 
 The project consist of two major parts:
 1. Server side (back-end)
+    
 2. Client side (front-end)
 
 ### The Console
