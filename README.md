@@ -1,8 +1,10 @@
-# AirBnB Clone
+# The AirBnB Cloned Website
 
 ![project_logo](./assets/hbnb.png)
 
 ## Introduction
+The AirBnB clone is a full-stack web application that integrats a database storage, a back-end API, and a front-end interface.
+This project is part of the (Alx) Holberton School Software Engineering program.
 
 <br>
 
@@ -111,10 +113,28 @@ TODO
 $ python3 -m unittest discover tests
 ```
 
-- Testing specific file:
+- Testing the console file:
 
 ```sh
-$ python3 -m unittest tests/<folder>/<filename>
+$ python3 -m unittest tests.test_console
+```
+
+- Testing specific model file:
+
+```sh
+$ python3 -m unittest tests.test_models.<test_filename>
+```
+
+- Testing specific test class:
+
+```sh
+$ python3 -m unittest tests.<test_folder>.<test_filename>.<test_class>
+```
+
+- Testing specific test case:
+
+```sh
+$ python3 -m unittest tests.<test_folder>.<test_filename>.<test_class>.<test_case>
 ```
 
 - Non-interactive mode: 
