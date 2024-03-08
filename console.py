@@ -150,13 +150,6 @@ class HBNBCommand(cmd.Cmd):
         attr_name = args["attr_name"]
         attr_value = args["attr_value"]
 
-        # logic to accept dictionary like as input
-        if re.match("^{(.*?):$", attr_name) and re.match(
-            "^(.*?)}$", attr_value
-        ):
-            attr_name = attr_name.strip("{'\":")
-            attr_value = attr_value.strip("'\"}")
-
         all_objs = storage.all()
         key = f"{cls_name}.{cls_id}"
         obj = all_objs.get(key)
@@ -219,22 +212,19 @@ class HBNBCommand(cmd.Cmd):
 
         nm_instances = 0
         all_objs = storage.all()
-
         for obj in all_objs.values():
-            if arg == "all":  # count all
-                nm_instances += 1
-            elif obj.__class__.__name__ == args["cls_name"]:  # count per class
-                nm_instances += 1
+            nm_instances += (
+                1
+                if arg == "all" or obj.__class__.__name__ == args["cls_name"]
+                else 0
+            )
         print(nm_instances)
 
     def do_reset(self, arg):
         """
         Resets the console screen.
         """
-        if os.name == 'nt':
-            os.system('cls')
-        else:
-            os.system('clear')
+        os.system('cls' if os.name == 'nt' else 'clear')
         print(self.intro)
 
     def do_EOF(self, arg):
@@ -266,22 +256,39 @@ class HBNBCommand(cmd.Cmd):
 
 def validated_args(arg, **kwargs):
     args = arg.split()
-    cls_name = args[0].strip('"') if args else ""
+    cls_name = args[0].strip("'\"") if args else ""
     if not cls_name:
         print("** class name missing **")
         return
     if cls_name not in classes and cls_name != "all":
         print("** class doesn't exist **")
         return
-    cls_id = args[1].strip('"\'') if len(args) > 1 else ""
+
+    cls_id = args[1].strip("'\"") if len(args) > 1 else ""
     if not cls_id and kwargs.get("check_id", False):
         print("** instance id missing **")
         return
-    attr_name = args[2].strip('"') if len(args) > 2 else ""
+
+    # logic to update using a dictionary like as input
+    attributes = ""
+    if len(args) > 2:
+        attributes = args[2]
+    if len(args) > 3:
+        attributes = args[2] + args[3]
+    dict_pattern = r"^{([^:]+?):\s*(.*?)}$"
+    matched = re.search(dict_pattern, attributes)
+    if matched:
+        attr_name, attr_value = matched.groups()
+        attr_name = attr_name.strip("'\"")
+        attr_value = attr_value.strip("'\"")
+    else:
+        attr_name = args[2].strip("'\"") if len(args) > 2 else ""
+        attr_value = args[3].strip("'\"") if len(args) > 3 else ""
+
     if not attr_name and kwargs.get("check_attr_name", False):
         print("** attribute name missing **")
         return
-    attr_value = args[3].strip('"') if len(args) > 3 else ""
+
     if not attr_value and kwargs.get("check_attr_val", False):
         print("** value missing **")
         return
