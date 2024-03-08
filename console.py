@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import os
 import re
 import cmd
 from models.base_model import BaseModel
@@ -22,7 +23,7 @@ classes = {
 
 
 class HBNBCommand(cmd.Cmd):
-    intro = "Welcome to the airbnb console.\tType help or ? to list commands.\n"
+    intro = "Welcome to Airbnb console.\tType help or ? to list commands.\n"
     prompt = "(hbnb) "
     file = "hbnb.json"
 
@@ -68,7 +69,7 @@ class HBNBCommand(cmd.Cmd):
         args = f"{cls_name} {cls_id} {attr_name} {attr_value}"
         if method == "update":
             commands[method](
-                args, check_id=True, check_attr_name=True, check_attr_value=True
+                args, check_id=True, check_attr_name=True, check_attr_val=True
             )
             return
 
@@ -127,7 +128,7 @@ class HBNBCommand(cmd.Cmd):
         print(arr)
 
     def do_update(
-        self, arg, check_id=True, check_attr_name=True, check_attr_value=True
+        self, arg, check_id=True, check_attr_name=True, check_attr_val=True
     ):
         """
         Updates an instance based on the class name and uid
@@ -139,7 +140,7 @@ class HBNBCommand(cmd.Cmd):
             arg,
             check_id=check_id,
             check_attr_name=check_attr_name,
-            check_attr_value=check_attr_value,
+            check_attr_val=check_attr_val,
         )
         if not args:
             return
@@ -148,6 +149,13 @@ class HBNBCommand(cmd.Cmd):
         cls_id = args["cls_id"]
         attr_name = args["attr_name"]
         attr_value = args["attr_value"]
+
+        # logic to accept dictionary like as input
+        if re.match("^{(.*?):$", attr_name) and re.match(
+            "^(.*?)}$", attr_value
+        ):
+            attr_name = attr_name.strip("{'\":")
+            attr_value = attr_value.strip("'\"}")
 
         all_objs = storage.all()
         key = f"{cls_name}.{cls_id}"
@@ -178,7 +186,28 @@ class HBNBCommand(cmd.Cmd):
         if removed_obj is None:
             print("** no instance found **")
             return
+
         storage.save()
+        """
+        # confirmation logic:
+        answered = False
+        while not answered:
+            confirm = input(
+                f"Are you sure you want to delete "
+                f"this instance [{cls_name}.{cls_id}]? (y/n): "
+            )
+            if confirm.lower() in ('yes', 'y'):
+                storage.save()
+                print(f"{cls_name}.{cls_id} destroyed.")
+                answered = True
+            elif confirm.lower() in ('no', 'n'):
+                all_objs[key] = removed_obj
+                print(f"action canceled.")
+                answered = True
+            else:
+                all_objs[key] = removed_obj
+                print("** invalid option **")
+            """
 
     def do_count(self, arg):
         """
@@ -191,16 +220,22 @@ class HBNBCommand(cmd.Cmd):
         nm_instances = 0
         all_objs = storage.all()
 
-        if arg == "all":
-            for obj in all_objs.values():
-                nm_instances += 1
-            print(nm_instances)
-            return
-
         for obj in all_objs.values():
-            if obj.__class__.__name__ == args["cls_name"]:
+            if arg == "all":  # count all
+                nm_instances += 1
+            elif obj.__class__.__name__ == args["cls_name"]:  # count per class
                 nm_instances += 1
         print(nm_instances)
+
+    def do_reset(self, arg):
+        """
+        Resets the console screen.
+        """
+        if os.name == 'nt':
+            os.system('cls')
+        else:
+            os.system('clear')
+        print(self.intro)
 
     def do_EOF(self, arg):
         """
@@ -247,7 +282,7 @@ def validated_args(arg, **kwargs):
         print("** attribute name missing **")
         return
     attr_value = args[3].strip('"') if len(args) > 3 else ""
-    if not attr_value and kwargs.get("check_attr_value", False):
+    if not attr_value and kwargs.get("check_attr_val", False):
         print("** value missing **")
         return
 
