@@ -37,7 +37,15 @@ The project consist of two major parts:
 
 The **Console** serves as the core foundation for this project. Building a CLI allows us to directly interact with the system, receive immediate feedback on actions and understand how commands translate into program logic. This makes the **Console** a valuable tool for testing and debugging our code efficiently.
 
-Following are some examples of using the Console both interactively and non-interactively.
+The console offers the following functionalities:
+
+- Creating new instances of various classes.
+- Showing information about existing instances based on class and id.
+- Updating existing instances by adding or modifying their attributes.
+- Deleting existing instances from the storage.
+- Counting the number of instances for each class.
+
+Examples of using the console both interactively and non-interactively:
 
 - Interactive mode:
 
