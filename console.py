@@ -77,7 +77,7 @@ class HBNBCommand(cmd.Cmd):
         """
         Creates a new instance of BaseModel, and saves it a JSON file.
         """
-        args = validated_args(arg)
+        args = validate(arg)
         if not args:
             return
 
@@ -91,7 +91,7 @@ class HBNBCommand(cmd.Cmd):
         Prints the string representation of an instance
         based on the class name and uid.
         """
-        args = validated_args(arg, check_id=check_id)
+        args = validate(arg, check_id=check_id)
         if not args:
             return
 
@@ -136,7 +136,7 @@ class HBNBCommand(cmd.Cmd):
 
         Usage: update <class name> <id> <attribute name> "<attribute value>"
         """
-        args = validated_args(
+        args = validate(
             arg,
             check_id=check_id,
             check_attr_name=check_attr_name,
@@ -166,7 +166,7 @@ class HBNBCommand(cmd.Cmd):
         Deletes an instance based on the class name and uid
         (save the change into the JSON file).
         """
-        args = validated_args(arg, check_id=check_id)
+        args = validate(arg, check_id=check_id)
         if not args:
             return
 
@@ -206,7 +206,7 @@ class HBNBCommand(cmd.Cmd):
         """
         Count the number of instance for each class.
         """
-        args = validated_args(arg)
+        args = validate(arg)
         if not args:
             return
 
@@ -254,8 +254,8 @@ class HBNBCommand(cmd.Cmd):
         super().do_help(arg)
 
 
-def validated_args(arg, **kwargs):
-    args = arg.split()
+def validate(arg, **kwargs):
+    args: list[str] = arg.split()
     cls_name = args[0].strip("'\"") if args else ""
     if not cls_name:
         print("** class name missing **")
@@ -274,13 +274,13 @@ def validated_args(arg, **kwargs):
     if len(args) > 2:
         attributes = args[2]
     if len(args) > 3:
-        attributes = args[2] + args[3]
-    dict_pattern = r"^{([^:]+?):\s*(.*?)}$"
+        attributes = ''.join(args[2:])
+    dict_pattern = r"^{([^:]+?):\s*(.*?)}.*$"
     matched = re.search(dict_pattern, attributes)
     if matched:
         attr_name, attr_value = matched.groups()
-        attr_name = attr_name.strip("'\"")
-        attr_value = attr_value.strip("'\"")
+        attr_name = attr_name.strip("{'\":")
+        attr_value = attr_value.strip("'\"}")
     else:
         attr_name = args[2].strip("'\"") if len(args) > 2 else ""
         attr_value = args[3].strip("'\"") if len(args) > 3 else ""
@@ -294,8 +294,8 @@ def validated_args(arg, **kwargs):
         return
 
     return {
-        "cls_name": cls_name,
         "cls_id": cls_id,
+        "cls_name": cls_name,
         "attr_name": attr_name,
         "attr_value": attr_value,
     }
