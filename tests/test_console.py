@@ -18,13 +18,13 @@ class TestConsoleExitOp(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.onecmd("quit")
         output = mock_stdout.getvalue().strip()
-        self.assertEqual(output, "Quit")
+        self.assertEqual(output, "")
 
     def test_EOF(self):
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.onecmd("EOF")
-        output = mock_stdout.getvalue().strip()
-        self.assertEqual(output, "EOF")
+        output = mock_stdout.getvalue()
+        self.assertEqual(output, "\n")
 
 
 class TestBaseModel(unittest.TestCase):
