@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Define the Review class module"""
 from models.base_model import BaseModel
 
 

@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Define the FileStorage class module"""
 import json
 from models.base_model import BaseModel
 from models.amenity import Amenity
@@ -10,18 +11,26 @@ from models.review import Review
 
 
 class FileStorage:
+    """Manage serialization and deserialization of class instances."""
+
     __file_path = "hbnb.json"
     __objects = {}
 
     def all(self):
         """
         Returns the dictionary __objects
+
+        Returns:
+            dict: A dictionary containing all objects stored in the __objects.
         """
         return self.__objects
 
     def new(self, obj):
         """
         Sets in __objects the obj with key <obj class name>.id
+
+        Args:
+        -   obj (BaseModel): The object to be added.
         """
         key = f"{obj.__class__.__name__}.{obj.id}"
         self.__objects[key] = obj
