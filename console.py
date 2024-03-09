@@ -175,8 +175,7 @@ class HBNBConsole(cmd.Cmd):
 
     def do_all(self, arg):
         """
-        Prints all string representation of all instances
-        based or not on the class name.
+        Prints a string representation of all instances.
 
         Args:
         -   arg (str): The user input argument (command to be interpreted).
