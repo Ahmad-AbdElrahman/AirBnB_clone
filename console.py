@@ -323,14 +323,14 @@ class HBNBConsole(cmd.Cmd):
 
     def do_EOF(self, arg):
         """
-        Close the AirBnB console, and exit the program.
+        End of file command to exit the program.
         """
         print()
         return True
 
     def do_quit(self, arg):
         """
-        Close the AirBnB console, and exit the program.
+        Quit command to exit the program.
         """
         return True
 
