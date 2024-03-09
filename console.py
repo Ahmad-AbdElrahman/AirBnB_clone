@@ -175,8 +175,7 @@ class HBNBConsole(cmd.Cmd):
 
     def do_all(self, arg):
         """
-        Prints all string representation of all instances
-        based or not on the class name.
+        Prints a string representation of all instances.
 
         Args:
         -   arg (str): The user input argument (command to be interpreted).
@@ -326,14 +325,13 @@ class HBNBConsole(cmd.Cmd):
         """
         Close the AirBnB console, and exit the program.
         """
-        print('EOF')
+        print()
         return True
 
     def do_quit(self, arg):
         """
         Close the AirBnB console, and exit the program.
         """
-        print('Quit')
         return True
 
     def emptyline(self):

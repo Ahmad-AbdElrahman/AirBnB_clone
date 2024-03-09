@@ -9,6 +9,7 @@ from models.state import State
 from models.place import Place
 from models.review import Review
 
+
 classes = {
     'BaseModel': BaseModel,
     'Amenity': Amenity,
@@ -21,17 +22,20 @@ classes = {
 
 
 class FileStorage:
-    """Manage serialization and deserialization of class instances."""
+    """
+    Manage serialization and deserialization of class instances.
+
+    Attributes:
+    -   __file_path (str): The path to the Json file.
+    -   __objects (dict): A dictionary containing every class instance.
+    """
 
     __file_path = "hbnb.json"
     __objects = {}
 
     def all(self):
         """
-        Returns the dictionary __objects
-
-        Returns:
-            dict: A dictionary containing all objects stored in the __objects.
+        Returns A dictionary containing all instances stored in __objects.
         """
         return self.__objects
 
