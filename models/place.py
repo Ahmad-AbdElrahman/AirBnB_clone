@@ -4,6 +4,7 @@ from models.base_model import BaseModel
 
 
 class Place(BaseModel):
+    """The Place class"""
 
     city_id = ""  # it will be the City.id later
     user_id = ""  # it will be the User.id later
