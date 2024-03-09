@@ -17,7 +17,7 @@ class TestConsoleExitOp(unittest.TestCase):
     def test_quit(self):
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.onecmd("quit")
-        output = mock_stdout.getvalue().strip()
+        output = mock_stdout.getvalue()
         self.assertEqual(output, "")
 
     def test_EOF(self):
@@ -487,10 +487,10 @@ class TestConsoleHelp(unittest.TestCase):
     def test_quit(self):
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             HBNBConsole().onecmd("help quit")
-        output = mock_stdout.getvalue().strip().split(".")[0]
+        output = mock_stdout.getvalue().strip()
         self.assertEqual(
             output,
-            "Close the AirBnB console, and exit the program",
+            "Quit command to exit the program.",
         )
 
 
