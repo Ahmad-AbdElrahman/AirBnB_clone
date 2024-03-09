@@ -11,16 +11,17 @@ class BaseModel:
 
     Attributes:
     -   id (str): A unique identifier for the model instance.
-    -   created_at (datetime): Timestamp representing the creation time.
-    -   updated_at (datetime): Timestamp representing the last update time.
+    -   created_at (datetime): Timestamp representing the creation date.
+    -   updated_at (datetime): Timestamp representing the last update date.
     """
 
     def __init__(self, *args, **kwargs):
         """
         Initializes a new BaseModel instance. If keyword arguments are provided
         it populates the instance attributes with the values.
-        If no arguments are provided, it generates a new unique id and sets the
-        created_at and updated_at timestamps, then adds to the storage.
+        If no arguments, it generates a new unique id and sets the
+        created_at and updated_at timestamps,
+        finally it save the instances in the storage file.
 
         Args:
         -   *args: Variable length argument list.
@@ -41,7 +42,7 @@ class BaseModel:
 
     def __str__(self):
         """
-        Returns a string representation of the BaseModel instance.
+        A string representation of the BaseModel instance.
 
         Returns:
         -   str: A string representation of the model instance.
@@ -51,14 +52,14 @@ class BaseModel:
     def save(self):
         """
         Updates the attribute (updated_at) timestamp and saves
-        the BaseModel instance to the storage.
+        the class instance to the storage file.
         """
         self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
         """
-        Returns a dictionary representation of the BaseModel instance.
+        A dictionary representation of the BaseModel instance.
 
         Returns:
         -   _dict: A dictionary representation of the model instance.
