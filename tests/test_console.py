@@ -4,7 +4,8 @@ import os
 import unittest
 from io import StringIO
 from unittest.mock import patch
-from console import HBNBConsole, classes, error_messages
+from console import HBNBConsole, error_messages
+from models import classes
 
 
 class TestConsoleExitOP(unittest.TestCase):

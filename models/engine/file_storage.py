@@ -9,6 +9,16 @@ from models.state import State
 from models.place import Place
 from models.review import Review
 
+classes = {
+    'BaseModel': BaseModel,
+    'Amenity': Amenity,
+    'User': User,
+    'City': City,
+    'State': State,
+    'Place': Place,
+    'Review': Review,
+}
+
 
 class FileStorage:
     """Manage serialization and deserialization of class instances."""
@@ -49,15 +59,6 @@ class FileStorage:
         (only if the JSON file (__file_path) exists; otherwise, do nothing)
         (If the file doesn't exist, no exception should be raised)
         """
-        classes = {
-            'BaseModel': BaseModel,
-            'Amenity': Amenity,
-            'User': User,
-            'City': City,
-            'State': State,
-            'Place': Place,
-            'Review': Review,
-        }
 
         try:
             with open(self.__file_path) as f:
