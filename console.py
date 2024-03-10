@@ -321,12 +321,12 @@ class HBNBConsole(cmd.Cmd):
         os.system('cls' if os.name == 'nt' else 'clear')
         print(self.intro)
 
-    def do_EOF(self, arg):
-        """
-        End of file command to exit the program.
-        """
-        print()
-        return True
+    # def do_EOF(self, arg):
+    #     """
+    #     End of file command to exit the program.
+    #     """
+    #     print()
+    #     return True
 
     # def do_quit(self, arg):
     #     """Quit command to exit the program.
