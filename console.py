@@ -16,23 +16,11 @@ The console offers the following functionalities:
 import os
 import re
 import cmd
-from typing import TypedDict
 from models import storage
 from models import classes
 
 
-# for auto-completion
-class ErrorMessages(TypedDict):
-    no_method: str
-    no_cls: str
-    no_cls_name: str
-    no_obj_id: str
-    no_obj: str
-    no_attr_name: str
-    no_attr_val: str
-
-
-error_messages: ErrorMessages = {
+error_messages = {
     "no_method": "** invalid method **",
     "no_cls": "** class doesn't exist **",
     "no_cls_name": "** class name missing **",
@@ -57,6 +45,7 @@ class HBNBConsole(cmd.Cmd):
     console.
     """
 
+    intro = "Welcome to Airbnb console.\tType help or ? to list commands.\n"
     prompt = "(hbnb) "
     file = "hbnb.json"
 
@@ -318,6 +307,7 @@ class HBNBConsole(cmd.Cmd):
         Resets the console screen.
         """
         os.system('cls' if os.name == 'nt' else 'clear')
+        print(self.intro)
 
     def do_EOF(self, arg):
         """
