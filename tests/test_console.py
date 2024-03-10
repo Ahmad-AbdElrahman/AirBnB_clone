@@ -4,6 +4,7 @@ import os
 import unittest
 from io import StringIO
 from unittest.mock import patch
+
 from models import storage
 from models import classes
 from console import HBNBCommand
@@ -28,8 +29,13 @@ class TestConsoleExitOp(unittest.TestCase):
         self.assertEqual(output, "\n")
 
 
-class TestBaseModel(unittest.TestCase):
-    """Testing the BaseModel"""
+class TestConsole(unittest.TestCase):
+    """
+    Testing the console main methods.
+
+    Format:
+    -    Like : <method> <class> Ex : create BaseModel
+    """
 
     @classmethod
     def setUp(cls):
@@ -43,7 +49,7 @@ class TestBaseModel(unittest.TestCase):
             os.remove(cls.console.file)
 
     def test_create(self):
-        """Test the create method using the <method> <class> formate."""
+        """Test the create method"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.onecmd(f"create {self.cls_name}")
         output = mock_stdout.getvalue().strip()
@@ -229,8 +235,13 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(output, expected)
 
 
-class TestBaseModelDotNotation(unittest.TestCase):
-    """Testing with the method.notation formate"""
+class TestConsoleDotNotation(unittest.TestCase):
+    """
+    Testing the console main methods using the dot.notation
+
+    Format:
+    -    Like : <class>.<method>(). Ex : BaseModel.create()
+    """
 
     @classmethod
     def setUp(cls):
@@ -245,7 +256,7 @@ class TestBaseModelDotNotation(unittest.TestCase):
 
     def test_create(self):
         """Test"""
-        """Test the create method using the <class>.<method>() formate."""
+        """Test the create method using the <class>.<method>() format."""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.default(f"{self.cls_name}.create()")
         output = mock_stdout.getvalue().strip()
