@@ -16,23 +16,24 @@ The console offers the following functionalities:
 import os
 import re
 import cmd
-from typing import TypedDict
+
+# from typing import TypedDict
 from models import storage
 from models import classes
 
 
-# for auto-completion
-class ErrorMessages(TypedDict):
-    no_method: str
-    no_cls: str
-    no_cls_name: str
-    no_obj_id: str
-    no_obj: str
-    no_attr_name: str
-    no_attr_val: str
+# # for auto-completion
+# class ErrorMessages(TypedDict):
+#     no_method: str
+#     no_cls: str
+#     no_cls_name: str
+#     no_obj_id: str
+#     no_obj: str
+#     no_attr_name: str
+#     no_attr_val: str
 
 
-error_messages: ErrorMessages = {
+error_messages = {
     "no_method": "** invalid method **",
     "no_cls": "** class doesn't exist **",
     "no_cls_name": "** class name missing **",
@@ -325,7 +326,7 @@ class HBNBConsole(cmd.Cmd):
         """
         Exit the program using EOF (Ctrl+D)
         """
-        print()
+        print("")
         return True
 
     def do_quit(self, arg):
