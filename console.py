@@ -43,7 +43,7 @@ error_messages: ErrorMessages = {
 }
 
 
-class HBNBConsole(cmd.Cmd):
+class HBNBCommand(cmd.Cmd):
     """
     Command-line interface for interacting with BaseModel instances.
 
@@ -333,7 +333,7 @@ class HBNBConsole(cmd.Cmd):
         Quit command to exit the program.
         """
         return True
-    
+
     def help_quit(self):
         """Help message for the quit command."""
         print("Quit command to exit the program\n")
