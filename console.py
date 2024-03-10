@@ -322,13 +322,15 @@ class HBNBConsole(cmd.Cmd):
         print(self.intro)
 
     def do_EOF(self, arg):
-        """Exit the program using EOF (Ctrl+D)
+        """
+        Exit the program using EOF (Ctrl+D)
         """
         print()
         return True
 
     def do_quit(self, arg):
-        """Quit command to exit the program
+        """
+        Quit command to exit the program
         """
         return True
 
@@ -399,7 +401,7 @@ def validate(arg, **kwargs):
         attr_name = attr_name.strip("{'\":")
         attr_value = attr_value.strip("'\"}")
     else:
-        attr_name = args[2].strip("{'\"") if len(args) > 2 else ""
+        attr_name = args[2].strip("{'\":") if len(args) > 2 else ""
         attr_value = args[3].strip("'\"}") if len(args) > 3 else ""
 
     if not attr_name and kwargs.get("check_attr_name", False):
