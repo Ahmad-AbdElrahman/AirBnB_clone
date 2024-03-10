@@ -63,10 +63,10 @@ class HBNBCommand(cmd.Cmd):
 
     def default(self, line):
         """
-        Handles cases where user commands are not recognized by HBNBConsole.
+        Handles cases where user commands are not recognized by HBNBCommand.
 
         This method is invoked when the user enters a command
-        that doesn't match any of the defined functionalities in HBNBConsole.
+        that doesn't match any of the defined functionalities in HBNBCommand.
         It checks for a pattern matching "<class_name>.<method>(<args>)"
         and attempts to call the corresponding do_* method if valid.
         Otherwise, it prints an error message.
@@ -353,7 +353,7 @@ class HBNBCommand(cmd.Cmd):
 
 def validate(arg, **kwargs):
     """
-    Validates user input arguments for the HBNBConsole methods.
+    Validates user input arguments for the HBNBCommand methods.
 
     This function parses the user input arguments (`arg`) and performs
     various checks based on the provided keyword arguments (`kwargs`).
