@@ -329,14 +329,9 @@ class HBNBConsole(cmd.Cmd):
         return True
 
     def do_quit(self, arg):
-        """
-        Quit command to exit the program.
+        """Quit command to exit the program.
         """
         return True
-    
-    def help_quit(self):
-        """Help message for the quit command."""
-        print("Quit command to exit the program\n")
 
     def emptyline(self):
         """
