@@ -333,13 +333,10 @@ class HBNBCommand(cmd.Cmd):
         Quit command to exit the program
         """
         return True
-<<<<<<< HEAD
 
     def help_quit(self):
         """Help message for the quit command."""
         print("Quit command to exit the program\n")
-=======
->>>>>>> a63a39eda0686ea565cdd9fd5ca9ba852222ecb8
 
     def emptyline(self):
         """
@@ -428,4 +425,4 @@ def validate(arg, **kwargs):
 
 
 if __name__ == '__main__':
-    HBNBConsole().cmdloop()
+    HBNBCommand().cmdloop()
