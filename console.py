@@ -245,7 +245,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         setattr(obj, attr_name, attr_value)
-        obj.save()
+        storage.save()
 
     def do_destroy(self, arg, check_id=True):
         """
