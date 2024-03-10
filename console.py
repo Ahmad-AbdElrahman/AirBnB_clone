@@ -114,9 +114,7 @@ class HBNBCommand(cmd.Cmd):
         attr_value = cmd[2].split(',')[2] if len(cmd[2].split(',')) > 2 else ""
         args = f"{cls_name} {obj_id} {attr_name} {attr_value}"
         if method == "update":
-            commands[method](
-                args, check_id=True, check_attr_name=True, check_attr_val=True
-            )
+            commands[method](args, check_id=True, atn=True, atv=True)
             return
 
     def do_create(self, arg):
@@ -201,9 +199,7 @@ class HBNBCommand(cmd.Cmd):
         ]
         print(obj_list)
 
-    def do_update(
-        self, arg, check_id=True, check_attr_name=True, check_attr_val=True
-    ):
+    def do_update(self, arg, check_id=True, atn=True, atv=True):
         """
         Updates an instance based on the class name and its id.
 
@@ -212,27 +208,22 @@ class HBNBCommand(cmd.Cmd):
         -   check_id (bool):
                 If True, checks if an instance id is provided.
                 (defaults to True)
-        -   check_attr_name (bool):
+        -   atn (bool):
                 If True, checks if an attribute name is provided.
                 (defaults to True)
-        -   check_attr_val (bool):
+        -   atv (bool):
                 If True, checks if an attribute value is provided.
                 (defaults to True)
 
         Raises:
         -   None (prints error messages to the console).
         """
-        args = validate(
-            arg,
-            check_id=check_id,
-            check_attr_name=check_attr_name,
-            check_attr_val=check_attr_val,
-        )
+        args = validate(arg, check_id=check_id, atn=atn, atv=atv)
         if not args:
             return
 
-        cls_name = args["cls_name"]
         obj_id = args["obj_id"]
+        cls_name = args["cls_name"]
         attr_name = args["attr_name"]
         attr_value = args["attr_value"]
 
@@ -245,7 +236,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         setattr(obj, attr_name, attr_value)
-        storage.save()
+        obj.save()
 
     def do_destroy(self, arg, check_id=True):
         """
@@ -327,10 +318,10 @@ def validate(arg, **kwargs):
             - check_id (bool):
                 If True, checks if an instance id is provided.
                 (defaults to False)
-            - check_attr_name (bool):
+            - atn (bool):
                 If True, checks if an attribute name is provided.
                 (defaults to False)
-            - check_attr_val (bool):
+            - atv (bool):
                 If True, checks if an attribute value is provided.
                 (defaults to False)
 
@@ -371,11 +362,11 @@ def validate(arg, **kwargs):
         attr_name = args[2].strip("{'\":") if len(args) > 2 else ""
         attr_value = args[3].strip("'\"}") if len(args) > 3 else ""
 
-    if not attr_name and kwargs.get("check_attr_name", False):
+    if not attr_name and kwargs.get("atn", False):
         print(error_messages["no_attr_name"])
         return
 
-    if not attr_value and kwargs.get("check_attr_val", False):
+    if not attr_value and kwargs.get("atv", False):
         print(error_messages["no_attr_val"])
         return
 
