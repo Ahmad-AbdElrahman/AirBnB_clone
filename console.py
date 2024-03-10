@@ -76,7 +76,7 @@ class HBNBCommand(cmd.Cmd):
         """
         commands = {
             "create": self.do_create,
-            # "count": self.do_count,
+            "count": self.do_count,
             "all": self.do_all,
             "show": self.do_show,
             "destroy": self.do_destroy,
@@ -273,26 +273,26 @@ class HBNBCommand(cmd.Cmd):
 
         storage.save()
 
-    #     def do_count(self, arg):
-    #         """
-    #         Count the number of instance for each class.
+    def do_count(self, arg):
+        """
+        Count the number of instance for each class.
 
-    #         Args:
-    #         -   arg (str): The user input argument (command to be interpreted).
-    #         """
-    #         args = validate(arg)
-    #         if not args:
-    #             return
+        Args:
+        -   arg (str): The user input argument (command to be interpreted).
+        """
+        args = validate(arg)
+        if not args:
+            return
 
-    #         nm_instances = 0
-    #         all_objs = storage.all()
-    #         for obj in all_objs.values():
-    #             nm_instances += (
-    #                 1
-    #                 if arg == "all" or obj.__class__.__name__ == args["cls_name"]
-    #                 else 0
-    #             )
-    #         print(nm_instances)
+        nm_instances = 0
+        all_objs = storage.all()
+        for obj in all_objs.values():
+            nm_instances += (
+                1
+                if arg == "all" or obj.__class__.__name__ == args["cls_name"]
+                else 0
+            )
+        print(nm_instances)
 
     def do_reset(self, arg):
         """
