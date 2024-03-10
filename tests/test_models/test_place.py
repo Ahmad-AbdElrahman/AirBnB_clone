@@ -1,37 +1,76 @@
 #!/usr/bin/python3
-"""Test Place"""
-from models.amenity import Amenity
-from models.base_model import BaseModel
-from models.city import City
-from models.place import Place
-from models.review import Review
-from models.state import State
-import pep8
+"""Unit tests for the `place` module"""
+import os
 import unittest
+from models import storage
+from datetime import datetime
+from models.place import Place
+from models import FileStorage
 
 
-class Testplace(unittest.TestCase):
-    """
-    Unittests for the Place class.
-    """
+class TestPlace(unittest.TestCase):
+    """Test cases for the `Place` class."""
 
-    def test_pep8_conformance_place(self):
-        """Test that we conform to PEP8."""
-        pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(['models/place.py'])
-        self.assertEqual(result.total_errors, 0,
-                         "Found code style errors (and warnings).")
+    def tearDown(self):
+        """Resets FileStorage data."""
+        FileStorage._FileStorage__objects = {}
+        if os.path.exists(FileStorage._FileStorage__file_path):
+            os.remove(FileStorage._FileStorage__file_path)
 
-    def test_class(self):
-        """
-        Tests if class is named correctly.
-        """
-        place1 = Place()
-        self.assertEqual(place1.__class__.__name__, "Place")
+    def test_params(self):
+        """Test method for class attributes"""
+        p1 = Place()
+        p2 = Place("Cairo")
+        self.assertEqual(p2.name, "")
+        k = f"{type(p1).__name__}.{p1.id}"
+        self.assertIsInstance(p1.name, str)
+        self.assertIn(k, storage.all())
 
-    def test_father(self):
-        """
-        Tests if Class inherits from BaseModel.
-        """
-        place1 = Place()
-        self.assertTrue(issubclass(place1.__class__, BaseModel))
+        self.assertIsInstance(p1.name, str)
+        self.assertIsInstance(p1.user_id, str)
+        self.assertIsInstance(p1.city_id, str)
+        self.assertIsInstance(p1.description, str)
+        self.assertIsInstance(p1.number_bathrooms, int)
+        self.assertIsInstance(p1.number_rooms, int)
+        self.assertIsInstance(p1.price_by_night, int)
+        self.assertIsInstance(p1.max_guest, int)
+        self.assertIsInstance(p1.longitude, float)
+        self.assertIsInstance(p1.latitude, float)
+        self.assertIsInstance(p1.amenity_ids, list)
+
+    def test_init(self):
+        """Test method for public instances"""
+        p1 = Place()
+        p2 = Place(**p1.to_dict())
+        self.assertIsInstance(p1.id, str)
+        self.assertIsInstance(p1.created_at, datetime)
+        self.assertIsInstance(p1.updated_at, datetime)
+        self.assertEqual(p1.updated_at, p2.updated_at)
+
+    def test_str(self):
+        """Test method for str representation"""
+        p1 = Place()
+        string = f"[{type(p1).__name__}] ({p1.id}) {p1.__dict__}"
+        self.assertEqual(p1.__str__(), string)
+
+    def test_save(self):
+        """Test method for save"""
+        p1 = Place()
+        old_update = p1.updated_at
+        p1.save()
+        self.assertNotEqual(p1.updated_at, old_update)
+
+    def test_to_dict(self):
+        """Test method for dict"""
+        p1 = Place()
+        p2 = Place(**p1.to_dict())
+        a_dict = p2.to_dict()
+        self.assertIsInstance(a_dict, dict)
+        self.assertEqual(a_dict['__class__'], type(p2).__name__)
+        self.assertIn('created_at', a_dict.keys())
+        self.assertIn('updated_at', a_dict.keys())
+        self.assertNotEqual(p1, p2)
+
+
+if __name__ == "__main__":
+    unittest.main()

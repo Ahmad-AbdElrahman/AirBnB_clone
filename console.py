@@ -323,20 +323,23 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, arg):
         """
-        End of file command to exit the program.
+        Exit the program using EOF (Ctrl+D)
         """
-        print()
+        print("")
         return True
 
     def do_quit(self, arg):
         """
-        Quit command to exit the program.
+        Quit command to exit the program
         """
         return True
+<<<<<<< HEAD
 
     def help_quit(self):
         """Help message for the quit command."""
         print("Quit command to exit the program\n")
+=======
+>>>>>>> a63a39eda0686ea565cdd9fd5ca9ba852222ecb8
 
     def emptyline(self):
         """
@@ -405,7 +408,7 @@ def validate(arg, **kwargs):
         attr_name = attr_name.strip("{'\":")
         attr_value = attr_value.strip("'\"}")
     else:
-        attr_name = args[2].strip("{'\"") if len(args) > 2 else ""
+        attr_name = args[2].strip("{'\":") if len(args) > 2 else ""
         attr_value = args[3].strip("'\"}") if len(args) > 3 else ""
 
     if not attr_name and kwargs.get("check_attr_name", False):
