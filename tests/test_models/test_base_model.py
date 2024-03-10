@@ -15,7 +15,7 @@ class TestBase(unittest.TestCase):
 
     def setUp(self):
         """Init setup for the test"""
-        self.path = FileStorage.__file_path
+        self.path = FileStorage._FileStorage__file_path
 
     def tearDown(self) -> None:
         """Resets FileStorage data."""
