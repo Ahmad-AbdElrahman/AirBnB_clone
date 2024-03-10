@@ -185,7 +185,7 @@ class TestBaseModel(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 
@@ -306,8 +306,8 @@ class TestBaseModelDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
+            self.console.onecmd(c)
         self.assertIn("age", obj.__dict__.keys())
         self.assertNotIn("color", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["age"], "20")
@@ -316,8 +316,8 @@ class TestBaseModelDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
+            self.console.onecmd(c)
         self.assertIn("email", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["email"], "xxx@gm")
 
@@ -370,7 +370,7 @@ class TestBaseModelDotNotation(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 
@@ -564,7 +564,7 @@ class TestUser(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 
@@ -685,8 +685,8 @@ class TestUserDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
+            self.console.onecmd(c)
         self.assertIn("age", obj.__dict__.keys())
         self.assertNotIn("color", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["age"], "20")
@@ -695,8 +695,8 @@ class TestUserDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
+            self.console.onecmd(c)
         self.assertIn("email", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["email"], "xxx@gm")
 
@@ -749,7 +749,7 @@ class TestUserDotNotation(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 
@@ -943,7 +943,7 @@ class TestState(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 
@@ -1064,8 +1064,8 @@ class TestStateDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
+            self.console.onecmd(c)
         self.assertIn("age", obj.__dict__.keys())
         self.assertNotIn("color", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["age"], "20")
@@ -1074,8 +1074,8 @@ class TestStateDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
+            self.console.onecmd(c)
         self.assertIn("email", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["email"], "xxx@gm")
 
@@ -1128,7 +1128,7 @@ class TestStateDotNotation(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 
@@ -1322,7 +1322,7 @@ class TestReview(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 
@@ -1443,8 +1443,8 @@ class TestReviewDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
+            self.console.onecmd(c)
         self.assertIn("age", obj.__dict__.keys())
         self.assertNotIn("color", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["age"], "20")
@@ -1453,8 +1453,8 @@ class TestReviewDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
+            self.console.onecmd(c)
         self.assertIn("email", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["email"], "xxx@gm")
 
@@ -1507,7 +1507,7 @@ class TestReviewDotNotation(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 
@@ -1701,7 +1701,7 @@ class TestPlace(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 
@@ -1822,8 +1822,8 @@ class TestPlaceDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
+            self.console.onecmd(c)
         self.assertIn("age", obj.__dict__.keys())
         self.assertNotIn("color", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["age"], "20")
@@ -1832,8 +1832,8 @@ class TestPlaceDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
+            self.console.onecmd(c)
         self.assertIn("email", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["email"], "xxx@gm")
 
@@ -1886,7 +1886,7 @@ class TestPlaceDotNotation(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 
@@ -2080,7 +2080,7 @@ class TestCity(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 
@@ -2201,8 +2201,8 @@ class TestCityDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
+            self.console.onecmd(c)
         self.assertIn("age", obj.__dict__.keys())
         self.assertNotIn("color", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["age"], "20")
@@ -2211,8 +2211,8 @@ class TestCityDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
+            self.console.onecmd(c)
         self.assertIn("email", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["email"], "xxx@gm")
 
@@ -2265,7 +2265,7 @@ class TestCityDotNotation(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 
@@ -2459,7 +2459,7 @@ class TestAmenity(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 
@@ -2580,8 +2580,8 @@ class TestAmenityDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
+            self.console.onecmd(c)
         self.assertIn("age", obj.__dict__.keys())
         self.assertNotIn("color", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["age"], "20")
@@ -2590,8 +2590,8 @@ class TestAmenityDotNotation(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
-            self.console.onecmd(cmd)
+            c = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
+            self.console.onecmd(c)
         self.assertIn("email", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["email"], "xxx@gm")
 
@@ -2644,7 +2644,7 @@ class TestAmenityDotNotation(unittest.TestCase):
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
-            if type(i) == classes[self.cls_name]:
+            if type(i) is classes[self.cls_name]:
                 count += 1
         self.assertEqual(int(output), count)
 

@@ -29,7 +29,8 @@ class TestBase(unittest.TestCase):
         self.assertIsInstance(b1.id, str)
         self.assertIsInstance(b1.created_at, datetime)
         self.assertIsInstance(b1.created_at, datetime)
-        self.assertEqual(str(type(b1)), "<class 'models.base_model.BaseModel'>")
+        expected = "<class 'models.base_model.BaseModel'>"
+        self.assertEqual(str(type(b1)), expected)
         uid = str(uuid.uuid4())
         b2 = BaseModel(id=uid, name="xxx", email="xxx@gmail.com")
         self.assertIsInstance(b2.id, str)
