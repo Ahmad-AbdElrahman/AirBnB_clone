@@ -307,77 +307,77 @@ class HBNBCommand(cmd.Cmd):
     #         )
     #     print(nm_instances)
 
-    def validate(self, arg, **kwargs):
-        """
-        Validates user input arguments for the HBNBCommand methods.
+    # def validate(self, arg, **kwargs):
+    #     """
+    #     Validates user input arguments for the HBNBCommand methods.
 
-        This function parses the user input arguments (`arg`) and performs
-        various checks based on the provided keyword arguments (`kwargs`).
+    #     This function parses the user input arguments (`arg`) and performs
+    #     various checks based on the provided keyword arguments (`kwargs`).
 
-        Args:
-        -   arg (str): The user input argument (command to be interpreted).
-        -   **kwargs (dict): Keyword arguments specifying additional validations.
-                - check_id (bool):
-                    If True, checks if an instance id is provided.
-                    (defaults to False)
-                - check_attr_name (bool):
-                    If True, checks if an attribute name is provided.
-                    (defaults to False)
-                - check_attr_val (bool):
-                    If True, checks if an attribute value is provided.
-                    (defaults to False)
+    #     Args:
+    #     -   arg (str): The user input argument (command to be interpreted).
+    #     -   **kwargs (dict): Keyword arguments specifying additional validations.
+    #             - check_id (bool):
+    #                 If True, checks if an instance id is provided.
+    #                 (defaults to False)
+    #             - check_attr_name (bool):
+    #                 If True, checks if an attribute name is provided.
+    #                 (defaults to False)
+    #             - check_attr_val (bool):
+    #                 If True, checks if an attribute value is provided.
+    #                 (defaults to False)
 
-        Returns:
-        -   dict: A (dict) containing parsed arguments on successful validation,
-                (None) otherwise.
+    #     Returns:
+    #     -   dict: A (dict) containing parsed arguments on successful validation,
+    #             (None) otherwise.
 
-        Raises:
-        -   None (prints error messages to the console).
-        """
-        args: list[str] = arg.split()
-        cls_name = args[0].strip("'\"") if args else ""
-        if not cls_name:
-            print(error_messages["no_cls_name"])
-            return
-        if cls_name not in classes and cls_name != "all":
-            print(error_messages["no_cls"])
-            return
+    #     Raises:
+    #     -   None (prints error messages to the console).
+    #     """
+    #     args: list[str] = arg.split()
+    #     cls_name = args[0].strip("'\"") if args else ""
+    #     if not cls_name:
+    #         print(error_messages["no_cls_name"])
+    #         return
+    #     if cls_name not in classes and cls_name != "all":
+    #         print(error_messages["no_cls"])
+    #         return
 
-        obj_id = args[1].strip("'\"") if len(args) > 1 else ""
-        if not obj_id and kwargs.get("check_id", False):
-            print(error_messages["no_obj_id"])
-            return
+    #     obj_id = args[1].strip("'\"") if len(args) > 1 else ""
+    #     if not obj_id and kwargs.get("check_id", False):
+    #         print(error_messages["no_obj_id"])
+    #         return
 
-        # logic to update using a dictionary like as input
-        attributes = ""
-        if len(args) > 2:
-            attributes = args[2]
-        if len(args) > 3:
-            attributes = ''.join(args[2:])
-        dict_pattern = r"^{([^:]+?):\s*(.*?)}.*$"
-        matched = re.search(dict_pattern, attributes)
-        if matched:
-            attr_name, attr_value = matched.groups()
-            attr_name = attr_name.strip("{'\":")
-            attr_value = attr_value.strip("'\"}")
-        else:
-            attr_name = args[2].strip("{'\":") if len(args) > 2 else ""
-            attr_value = args[3].strip("'\"}") if len(args) > 3 else ""
+    #     # logic to update using a dictionary like as input
+    #     attributes = ""
+    #     if len(args) > 2:
+    #         attributes = args[2]
+    #     if len(args) > 3:
+    #         attributes = ''.join(args[2:])
+    #     dict_pattern = r"^{([^:]+?):\s*(.*?)}.*$"
+    #     matched = re.search(dict_pattern, attributes)
+    #     if matched:
+    #         attr_name, attr_value = matched.groups()
+    #         attr_name = attr_name.strip("{'\":")
+    #         attr_value = attr_value.strip("'\"}")
+    #     else:
+    #         attr_name = args[2].strip("{'\":") if len(args) > 2 else ""
+    #         attr_value = args[3].strip("'\"}") if len(args) > 3 else ""
 
-        if not attr_name and kwargs.get("check_attr_name", False):
-            print(error_messages["no_attr_name"])
-            return
+    #     if not attr_name and kwargs.get("check_attr_name", False):
+    #         print(error_messages["no_attr_name"])
+    #         return
 
-        if not attr_value and kwargs.get("check_attr_val", False):
-            print(error_messages["no_attr_val"])
-            return
+    #     if not attr_value and kwargs.get("check_attr_val", False):
+    #         print(error_messages["no_attr_val"])
+    #         return
 
-        return {
-            "obj_id": obj_id,
-            "cls_name": cls_name,
-            "attr_name": attr_name,
-            "attr_value": attr_value,
-        }
+    #     return {
+    #         "obj_id": obj_id,
+    #         "cls_name": cls_name,
+    #         "attr_name": attr_name,
+    #         "attr_value": attr_value,
+    #     }
 
 
 if __name__ == '__main__':
