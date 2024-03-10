@@ -490,7 +490,7 @@ class TestConsoleHelp(unittest.TestCase):
         output = mock_stdout.getvalue().strip()
         self.assertEqual(
             output,
-            "Quit command to exit the program.",
+            "Quit command to exit the program",
         )
 
 

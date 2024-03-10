@@ -18,6 +18,7 @@ class TestState(unittest.TestCase):
             os.remove(FileStorage._FileStorage__file_path)
 
     def test_params(self):
+        """Test"""
         s1 = State()
         s1.name = "Giza"
         self.assertEqual(s1.name, "Giza")

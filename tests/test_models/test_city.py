@@ -22,7 +22,6 @@ class TestCity(unittest.TestCase):
 
     def test_params(self):
         """Test method for class attributes"""
-        k = f"{type(c1).__name__}.{c1.id}"
         self.assertIsInstance(c1.name, str)
         self.assertEqual(c3.name, "")
         c1.name = "Alex"

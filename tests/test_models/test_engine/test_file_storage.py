@@ -11,9 +11,11 @@ class TestFileStorage_instantiation(unittest.TestCase):
     """Unittests for testing instantiation of the FileStorage class."""
 
     def test_FileStorage_instantiation_no_args(self):
+        """Basic test"""
         self.assertEqual(type(FileStorage()), FileStorage)
 
     def test_FileStorage_instantiation_with_arg(self):
+        """Basic test"""
         with self.assertRaises(TypeError):
             FileStorage(None)
 
@@ -25,6 +27,7 @@ class TestFileStorage_methods(unittest.TestCase):
     """Unittests for testing methods of the FileStorage class."""
 
     def setUp(self):
+        """Init setup for the test"""
         self.path = FileStorage._FileStorage__file_path
 
     def tearDown(self) -> None:
@@ -33,14 +36,17 @@ class TestFileStorage_methods(unittest.TestCase):
         if os.path.exists(self.path):
             os.remove(self.path)
 
-    def test_all(self):
+    def test_storage_type(self):
+        """Test the storage type"""
         self.assertEqual(dict, type(models.storage.all()))
 
     def test_all_with_arg(self):
+        """Passing an invalid arg to all() method"""
         with self.assertRaises(TypeError):
-            models.storage.all(None)
+            models.storage.all({})
 
     def test_new(self):
+        """Test new() method"""
         bm = classes["BaseModel"]()
         am = classes["Amenity"]()
         rv = classes["Review"]()
@@ -71,14 +77,17 @@ class TestFileStorage_methods(unittest.TestCase):
         self.assertIn(rv, models.storage.all().values())
 
     def test_new_with_args(self):
+        """Test new() method with extra arg"""
         with self.assertRaises(TypeError):
             models.storage.new(classes["BaseModel"](), 1)
 
     def test_new_with_None(self):
+        """Test new() method with arg type None"""
         with self.assertRaises(AttributeError):
             models.storage.new(None)
 
     def test_save(self):
+        """Test save() method"""
         bm = classes["BaseModel"]()
         am = classes["Amenity"]()
         rv = classes["Review"]()
@@ -106,10 +115,12 @@ class TestFileStorage_methods(unittest.TestCase):
             self.assertIn("Review." + rv.id, save_text)
 
     def test_save_with_arg(self):
+        """Test save() method with arg"""
         with self.assertRaises(TypeError):
-            models.storage.save(None)
+            models.storage.save({})
 
     def test_reload(self):
+        """Test reload() method"""
         bm = classes["BaseModel"]()
         am = classes["Amenity"]()
         rv = classes["Review"]()
@@ -136,8 +147,9 @@ class TestFileStorage_methods(unittest.TestCase):
         self.assertIn("Review." + rv.id, objs)
 
     def test_reload_with_arg(self):
+        """Test reload() method with arg"""
         with self.assertRaises(TypeError):
-            models.storage.reload(None)
+            models.storage.reload({})
 
 
 if __name__ == "__main__":

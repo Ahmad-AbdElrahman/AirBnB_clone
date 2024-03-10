@@ -19,7 +19,6 @@ class TestPlace(unittest.TestCase):
 
     def test_params(self):
         """Test method for class attributes"""
-
         p1 = Place()
         p2 = Place("Cairo")
         self.assertEqual(p2.name, "")
@@ -41,7 +40,6 @@ class TestPlace(unittest.TestCase):
 
     def test_init(self):
         """Test method for public instances"""
-
         p1 = Place()
         p2 = Place(**p1.to_dict())
         self.assertIsInstance(p1.id, str)

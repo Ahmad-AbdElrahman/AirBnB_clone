@@ -18,6 +18,7 @@ class TestState(unittest.TestCase):
             os.remove(FileStorage._FileStorage__file_path)
 
     def test_params(self):
+        """Test"""
         user = User()
         key = f"{type(user).__name__}.{user.id}"
         self.assertIn(key, storage.all())
