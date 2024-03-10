@@ -199,44 +199,44 @@ class HBNBCommand(cmd.Cmd):
         ]
         print(obj_list)
 
-    #     def do_update(self, arg, check_id=True, atn=True, atv=True):
-    #         """
-    #         Updates an instance based on the class name and its id.
+    def do_update(self, arg, check_id=True, atn=True, atv=True):
+        """
+        Updates an instance based on the class name and its id.
 
-    #         Args:
-    #         -   arg (str): The user input argument (command to be interpreted).
-    #         -   check_id (bool):
-    #                 If True, checks if an instance id is provided.
-    #                 (defaults to True)
-    #         -   atn (bool):
-    #                 If True, checks if an attribute name is provided.
-    #                 (defaults to True)
-    #         -   atv (bool):
-    #                 If True, checks if an attribute value is provided.
-    #                 (defaults to True)
+        Args:
+        -   arg (str): The user input argument (command to be interpreted).
+        -   check_id (bool):
+                If True, checks if an instance id is provided.
+                (defaults to True)
+        -   atn (bool):
+                If True, checks if an attribute name is provided.
+                (defaults to True)
+        -   atv (bool):
+                If True, checks if an attribute value is provided.
+                (defaults to True)
 
-    #         Raises:
-    #         -   None (prints error messages to the console).
-    #         """
-    #         args = validate(arg, check_id=check_id, atn=atn, atv=atv)
-    #         if not args:
-    #             return
+        Raises:
+        -   None (prints error messages to the console).
+        """
+        args = validate(arg, check_id=check_id, atn=atn, atv=atv)
+        if not args:
+            return
 
-    #         obj_id = args["obj_id"]
-    #         cls_name = args["cls_name"]
-    #         attr_name = args["attr_name"]
-    #         attr_value = args["attr_value"]
+        obj_id = args["obj_id"]
+        cls_name = args["cls_name"]
+        attr_name = args["attr_name"]
+        attr_value = args["attr_value"]
 
-    #         all_objs = storage.all()
-    #         key = f"{cls_name}.{obj_id}"
-    #         obj = all_objs.get(key)
+        all_objs = storage.all()
+        key = f"{cls_name}.{obj_id}"
+        obj = all_objs.get(key)
 
-    #         if obj is None:
-    #             print(error_messages["no_obj"])
-    #             return
+        if obj is None:
+            print(error_messages["no_obj"])
+            return
 
-    #         setattr(obj, attr_name, attr_value)
-    #         obj.save()
+        setattr(obj, attr_name, attr_value)
+        obj.save()
 
     def do_destroy(self, arg, check_id=True):
         """
