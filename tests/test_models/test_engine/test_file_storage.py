@@ -28,13 +28,13 @@ class TestFileStorage_methods(unittest.TestCase):
 
     def setUp(self):
         """Init setup for the test"""
-        self.path = FileStorage._FileStorage__file_path
+        pass
 
     def tearDown(self) -> None:
         """Resets FileStorage data."""
         FileStorage._FileStorage__objects = {}
-        if os.path.exists(self.path):
-            os.remove(self.path)
+        if os.path.exists(FileStorage._FileStorage__file_path):
+            os.remove(FileStorage._FileStorage__file_path)
 
     def test_storage_type(self):
         """Test the storage type"""

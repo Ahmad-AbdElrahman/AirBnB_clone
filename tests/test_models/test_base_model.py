@@ -15,13 +15,13 @@ class TestBase(unittest.TestCase):
 
     def setUp(self):
         """Init setup for the test"""
-        self.path = FileStorage._FileStorage__file_path
+        pass
 
     def tearDown(self) -> None:
         """Resets FileStorage data."""
         FileStorage._FileStorage__objects = {}
-        if os.path.exists(self.path):
-            os.remove(self.path)
+        if os.path.exists(FileStorage._FileStorage__file_path):
+            os.remove(FileStorage._FileStorage__file_path)
 
     def test_initialization_positive(self):
         """Test passing cases `BaseModel` initialization."""
@@ -66,8 +66,10 @@ class TestBase(unittest.TestCase):
         b.save()
         key = "{}.{}".format(type(b).__name__, b.id)
         d = {key: b.to_dict()}
-        self.assertTrue(os.path.isfile(self.path))
-        with open(self.path, "r", encoding="utf-8") as f:
+        self.assertTrue(os.path.isfile(FileStorage._FileStorage__file_path))
+        with open(
+            FileStorage._FileStorage__file_path, "r", encoding="utf-8"
+        ) as f:
             self.assertEqual(len(f.read()), len(json.dumps(d)))
             f.seek(0)
             self.assertEqual(json.load(f), d)
