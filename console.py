@@ -57,7 +57,7 @@ class HBNBCommand(cmd.Cmd):
     console.
     """
 
-    intro = "Welcome to Airbnb console.\tType help or ? to list commands.\n"
+    # intro = "Welcome to Airbnb console.\tType help or ? to list commands.\n"
     prompt = "(hbnb) "
     file = "hbnb.json"
 
