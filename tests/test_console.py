@@ -43,7 +43,6 @@ class TestConsoleExitOp(unittest.TestCase):
 #             os.remove(cls.console.file)
 
 #     def test_create(self):
-#         """Test"""
 #         """Test the create method using the <method> <class> formate."""
 #         with patch('sys.stdout', new=StringIO()) as mock_stdout:
 #             self.console.onecmd(f"create {self.cls_name}")
