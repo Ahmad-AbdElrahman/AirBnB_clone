@@ -61,321 +61,322 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
     file = "hbnb.json"
 
-    def default(self, line):
-        """
-        Handles cases where user commands are not recognized by HBNBCommand.
 
-        This method is invoked when the user enters a command
-        that doesn't match any of the defined functionalities in HBNBCommand.
-        It checks for a pattern matching "<class_name>.<method>(<args>)"
-        and attempts to call the corresponding do_* method if valid.
-        Otherwise, it prints an error message.
+#     def default(self, line):
+#         """
+#         Handles cases where user commands are not recognized by HBNBCommand.
 
-        Args:
-        -   line (str): The user input command string.
-        """
-        commands = {
-            "create": self.do_create,
-            "count": self.do_count,
-            "all": self.do_all,
-            "show": self.do_show,
-            "destroy": self.do_destroy,
-            # "update": self.do_update,
-        }
+#         This method is invoked when the user enters a command
+#         that doesn't match any of the defined functionalities in HBNBCommand.
+#         It checks for a pattern matching "<class_name>.<method>(<args>)"
+#         and attempts to call the corresponding do_* method if valid.
+#         Otherwise, it prints an error message.
 
-        pattern = r"^(\w+)\.(\w+)\((.*)\)$"
-        matched = re.match(pattern, line)
+#         Args:
+#         -   line (str): The user input command string.
+#         """
+#         commands = {
+#             "create": self.do_create,
+#             "count": self.do_count,
+#             "all": self.do_all,
+#             "show": self.do_show,
+#             "destroy": self.do_destroy,
+#             # "update": self.do_update,
+#         }
 
-        if not matched:
-            super().default(line)
-            return
+#         pattern = r"^(\w+)\.(\w+)\((.*)\)$"
+#         matched = re.match(pattern, line)
 
-        cmd = matched.groups()
-        args = ""
-        method = cmd[1]
-        cls_name = cmd[0]
+#         if not matched:
+#             super().default(line)
+#             return
 
-        if method not in commands:
-            print(error_messages["no_method"])
-            return
+#         cmd = matched.groups()
+#         args = ""
+#         method = cmd[1]
+#         cls_name = cmd[0]
 
-        if method in ("all", "create", "count"):
-            commands[method](cls_name)
-            return
+#         if method not in commands:
+#             print(error_messages["no_method"])
+#             return
 
-        obj_id = cmd[2]
-        args = f"{cls_name} {obj_id}"
-        if method in ("show", "destroy"):
-            commands[method](args, check_id=True)
-            return
+#         if method in ("all", "create", "count"):
+#             commands[method](cls_name)
+#             return
 
-        obj_id = cmd[2].split(',')[0]
-        attr_name = cmd[2].split(',')[1] if len(cmd[2].split(',')) > 1 else ""
-        attr_value = cmd[2].split(',')[2] if len(cmd[2].split(',')) > 2 else ""
-        args = f"{cls_name} {obj_id} {attr_name} {attr_value}"
-        if method == "update":
-            commands[method](args, check_id=True, atn=True, atv=True)
-            return
+#         obj_id = cmd[2]
+#         args = f"{cls_name} {obj_id}"
+#         if method in ("show", "destroy"):
+#             commands[method](args, check_id=True)
+#             return
 
-    def do_create(self, arg):
-        """
-        Creates a new instance, and saves it a JSON file.
+#         obj_id = cmd[2].split(',')[0]
+#         attr_name = cmd[2].split(',')[1] if len(cmd[2].split(',')) > 1 else ""
+#         attr_value = cmd[2].split(',')[2] if len(cmd[2].split(',')) > 2 else ""
+#         args = f"{cls_name} {obj_id} {attr_name} {attr_value}"
+#         if method == "update":
+#             commands[method](args, check_id=True, atn=True, atv=True)
+#             return
 
-        Args:
-        -   arg (str): The user input argument (command to be interpreted).
+#     def do_create(self, arg):
+#         """
+#         Creates a new instance, and saves it a JSON file.
 
-        Return:
-        -   None (prints the created instance id on success).
+#         Args:
+#         -   arg (str): The user input argument (command to be interpreted).
 
-        Raises:
-        -   None (prints error messages to the console).
-        """
-        args = validate(arg)
-        if not args:
-            return
+#         Return:
+#         -   None (prints the created instance id on success).
 
-        cls_name = args["cls_name"]
-        instance = classes[cls_name]()
-        instance.save()
-        print(instance.id)
+#         Raises:
+#         -   None (prints error messages to the console).
+#         """
+#         args = validate(arg)
+#         if not args:
+#             return
 
-    def do_show(self, arg, check_id=True):
-        """
-        Prints the string representation of an instance
-        based on the class name and its id.
+#         cls_name = args["cls_name"]
+#         instance = classes[cls_name]()
+#         instance.save()
+#         print(instance.id)
 
-        Args:
-        -   arg (str): The user input argument (command to be interpreted).
-        -   check_id (bool):
-                If True, checks if an instance id is provided.
-                (defaults to True)
+#     def do_show(self, arg, check_id=True):
+#         """
+#         Prints the string representation of an instance
+#         based on the class name and its id.
 
-        Return:
-        -   None (prints the instance id on success).
+#         Args:
+#         -   arg (str): The user input argument (command to be interpreted).
+#         -   check_id (bool):
+#                 If True, checks if an instance id is provided.
+#                 (defaults to True)
 
-        Raises:
-        -   None (prints error messages to the console).
-        """
-        args = validate(arg, check_id=check_id)
-        if not args:
-            return
+#         Return:
+#         -   None (prints the instance id on success).
 
-        cls_name = args["cls_name"]
-        obj_id = args["obj_id"]
-        all_objs = storage.all()
-        key = f"{cls_name}.{obj_id}"
-        obj = all_objs.get(key)
+#         Raises:
+#         -   None (prints error messages to the console).
+#         """
+#         args = validate(arg, check_id=check_id)
+#         if not args:
+#             return
 
-        if obj is None:
-            print(error_messages["no_obj"])
-            return
-        print(obj)
+#         cls_name = args["cls_name"]
+#         obj_id = args["obj_id"]
+#         all_objs = storage.all()
+#         key = f"{cls_name}.{obj_id}"
+#         obj = all_objs.get(key)
 
-    def do_all(self, arg):
-        """
-        Prints a string representation of all instances.
+#         if obj is None:
+#             print(error_messages["no_obj"])
+#             return
+#         print(obj)
 
-        Args:
-        -   arg (str): The user input argument (command to be interpreted).
+#     def do_all(self, arg):
+#         """
+#         Prints a string representation of all instances.
 
-        Return:
-        -   None (prints all the instances or empty []).
+#         Args:
+#         -   arg (str): The user input argument (command to be interpreted).
 
-        Raises:
-        -   None (prints error messages to the console).
-        """
-        args = arg.split()
-        cls_name = args[0].strip("'\"") if args else ""
+#         Return:
+#         -   None (prints all the instances or empty []).
 
-        if cls_name and cls_name not in classes:
-            print("** class doesn't exist **")
-            return
+#         Raises:
+#         -   None (prints error messages to the console).
+#         """
+#         args = arg.split()
+#         cls_name = args[0].strip("'\"") if args else ""
 
-        all_objs = storage.all()
-        obj_list = [
-            obj.__str__()
-            for obj in all_objs.values()
-            if not cls_name or obj.__class__.__name__ == cls_name
-        ]
-        print(obj_list)
+#         if cls_name and cls_name not in classes:
+#             print("** class doesn't exist **")
+#             return
 
-    def do_update(self, arg, check_id=True, atn=True, atv=True):
-        """
-        Updates an instance based on the class name and its id.
+#         all_objs = storage.all()
+#         obj_list = [
+#             obj.__str__()
+#             for obj in all_objs.values()
+#             if not cls_name or obj.__class__.__name__ == cls_name
+#         ]
+#         print(obj_list)
 
-        Args:
-        -   arg (str): The user input argument (command to be interpreted).
-        -   check_id (bool):
-                If True, checks if an instance id is provided.
-                (defaults to True)
-        -   atn (bool):
-                If True, checks if an attribute name is provided.
-                (defaults to True)
-        -   atv (bool):
-                If True, checks if an attribute value is provided.
-                (defaults to True)
+#     def do_update(self, arg, check_id=True, atn=True, atv=True):
+#         """
+#         Updates an instance based on the class name and its id.
 
-        Raises:
-        -   None (prints error messages to the console).
-        """
-        args = validate(arg, check_id=check_id, atn=atn, atv=atv)
-        if not args:
-            return
+#         Args:
+#         -   arg (str): The user input argument (command to be interpreted).
+#         -   check_id (bool):
+#                 If True, checks if an instance id is provided.
+#                 (defaults to True)
+#         -   atn (bool):
+#                 If True, checks if an attribute name is provided.
+#                 (defaults to True)
+#         -   atv (bool):
+#                 If True, checks if an attribute value is provided.
+#                 (defaults to True)
 
-        obj_id = args["obj_id"]
-        cls_name = args["cls_name"]
-        attr_name = args["attr_name"]
-        attr_value = args["attr_value"]
+#         Raises:
+#         -   None (prints error messages to the console).
+#         """
+#         args = validate(arg, check_id=check_id, atn=atn, atv=atv)
+#         if not args:
+#             return
 
-        all_objs = storage.all()
-        key = f"{cls_name}.{obj_id}"
-        obj = all_objs.get(key)
+#         obj_id = args["obj_id"]
+#         cls_name = args["cls_name"]
+#         attr_name = args["attr_name"]
+#         attr_value = args["attr_value"]
 
-        if obj is None:
-            print(error_messages["no_obj"])
-            return
+#         all_objs = storage.all()
+#         key = f"{cls_name}.{obj_id}"
+#         obj = all_objs.get(key)
 
-        setattr(obj, attr_name, attr_value)
-        obj.save()
+#         if obj is None:
+#             print(error_messages["no_obj"])
+#             return
 
-    def do_destroy(self, arg, check_id=True):
-        """
-        Deletes an instance based on the class name and provided instance id
-        (saves the change into the JSON file).
+#         setattr(obj, attr_name, attr_value)
+#         obj.save()
 
-        Args:
-        -   arg (str): The user input argument (command to be interpreted).
-        -   check_id (bool): Checks if an instance id is provided
-                                (defaults to True)
-        """
-        args = validate(arg, check_id=check_id)
-        if not args:
-            return
+#     def do_destroy(self, arg, check_id=True):
+#         """
+#         Deletes an instance based on the class name and provided instance id
+#         (saves the change into the JSON file).
 
-        cls_name = args["cls_name"]
-        obj_id = args["obj_id"]
+#         Args:
+#         -   arg (str): The user input argument (command to be interpreted).
+#         -   check_id (bool): Checks if an instance id is provided
+#                                 (defaults to True)
+#         """
+#         args = validate(arg, check_id=check_id)
+#         if not args:
+#             return
 
-        all_objs = storage.all()
-        key = f"{cls_name}.{obj_id}"
-        removed_obj = all_objs.pop(key, None)
-        if removed_obj is None:
-            print(error_messages["no_obj"])
-            return
+#         cls_name = args["cls_name"]
+#         obj_id = args["obj_id"]
 
-        storage.save()
+#         all_objs = storage.all()
+#         key = f"{cls_name}.{obj_id}"
+#         removed_obj = all_objs.pop(key, None)
+#         if removed_obj is None:
+#             print(error_messages["no_obj"])
+#             return
 
-    def do_count(self, arg):
-        """
-        Count the number of instance for each class.
+#         storage.save()
 
-        Args:
-        -   arg (str): The user input argument (command to be interpreted).
-        """
-        args = validate(arg)
-        if not args:
-            return
+#     def do_count(self, arg):
+#         """
+#         Count the number of instance for each class.
 
-        nm_instances = 0
-        all_objs = storage.all()
-        for obj in all_objs.values():
-            nm_instances += (
-                1
-                if arg == "all" or obj.__class__.__name__ == args["cls_name"]
-                else 0
-            )
-        print(nm_instances)
+#         Args:
+#         -   arg (str): The user input argument (command to be interpreted).
+#         """
+#         args = validate(arg)
+#         if not args:
+#             return
 
-    def do_reset(self, arg):
-        """
-        Resets the console screen.
-        """
-        os.system('cls' if os.name == 'nt' else 'clear')
+#         nm_instances = 0
+#         all_objs = storage.all()
+#         for obj in all_objs.values():
+#             nm_instances += (
+#                 1
+#                 if arg == "all" or obj.__class__.__name__ == args["cls_name"]
+#                 else 0
+#             )
+#         print(nm_instances)
 
-    def do_quit(self, arg):
-        """Quit command to exit the program"""
-        return True
+#     def do_reset(self, arg):
+#         """
+#         Resets the console screen.
+#         """
+#         os.system('cls' if os.name == 'nt' else 'clear')
 
-    def do_EOF(self, arg):
-        """EOF signal to exit the program."""
-        print("")
-        return True
+#     def do_quit(self, arg):
+#         """Quit command to exit the program"""
+#         return True
 
-    def emptyline(self):
-        """DO nothing upon receving an empty line."""
-        pass
+#     def do_EOF(self, arg):
+#         """EOF signal to exit the program."""
+#         print("")
+#         return True
+
+#     def emptyline(self):
+#         """DO nothing upon receving an empty line."""
+#         pass
 
 
-def validate(arg, **kwargs):
-    """
-    Validates user input arguments for the HBNBCommand methods.
+# def validate(arg, **kwargs):
+#     """
+#     Validates user input arguments for the HBNBCommand methods.
 
-    This function parses the user input arguments (`arg`) and performs
-    various checks based on the provided keyword arguments (`kwargs`).
+#     This function parses the user input arguments (`arg`) and performs
+#     various checks based on the provided keyword arguments (`kwargs`).
 
-    Args:
-    -   arg (str): The user input argument (command to be interpreted).
-    -   **kwargs (dict): Keyword arguments specifying additional validations.
-            - check_id (bool):
-                If True, checks if an instance id is provided.
-                (defaults to False)
-            - atn (bool):
-                If True, checks if an attribute name is provided.
-                (defaults to False)
-            - atv (bool):
-                If True, checks if an attribute value is provided.
-                (defaults to False)
+#     Args:
+#     -   arg (str): The user input argument (command to be interpreted).
+#     -   **kwargs (dict): Keyword arguments specifying additional validations.
+#             - check_id (bool):
+#                 If True, checks if an instance id is provided.
+#                 (defaults to False)
+#             - atn (bool):
+#                 If True, checks if an attribute name is provided.
+#                 (defaults to False)
+#             - atv (bool):
+#                 If True, checks if an attribute value is provided.
+#                 (defaults to False)
 
-    Returns:
-    -   dict: A (dict) containing parsed arguments on successful validation,
-            (None) otherwise.
+#     Returns:
+#     -   dict: A (dict) containing parsed arguments on successful validation,
+#             (None) otherwise.
 
-    Raises:
-    -   None (prints error messages to the console).
-    """
-    args: list[str] = arg.split()
-    cls_name = args[0].strip("'\"") if args else ""
-    if not cls_name:
-        print(error_messages["no_cls_name"])
-        return
-    if cls_name not in classes and cls_name != "all":
-        print(error_messages["no_cls"])
-        return
+#     Raises:
+#     -   None (prints error messages to the console).
+#     """
+#     args: list[str] = arg.split()
+#     cls_name = args[0].strip("'\"") if args else ""
+#     if not cls_name:
+#         print(error_messages["no_cls_name"])
+#         return
+#     if cls_name not in classes and cls_name != "all":
+#         print(error_messages["no_cls"])
+#         return
 
-    obj_id = args[1].strip("'\"") if len(args) > 1 else ""
-    if not obj_id and kwargs.get("check_id", False):
-        print(error_messages["no_obj_id"])
-        return
+#     obj_id = args[1].strip("'\"") if len(args) > 1 else ""
+#     if not obj_id and kwargs.get("check_id", False):
+#         print(error_messages["no_obj_id"])
+#         return
 
-    # logic to update using a dictionary like as input
-    attributes = ""
-    if len(args) > 2:
-        attributes = args[2]
-    if len(args) > 3:
-        attributes = ''.join(args[2:])
-    dict_pattern = r"^{([^:]+?):\s*(.*?)}.*$"
-    matched = re.search(dict_pattern, attributes)
-    if matched:
-        attr_name, attr_value = matched.groups()
-        attr_name = attr_name.strip("{'\":")
-        attr_value = attr_value.strip("'\"}")
-    else:
-        attr_name = args[2].strip("{'\":") if len(args) > 2 else ""
-        attr_value = args[3].strip("'\"}") if len(args) > 3 else ""
+#     # logic to update using a dictionary like as input
+#     attributes = ""
+#     if len(args) > 2:
+#         attributes = args[2]
+#     if len(args) > 3:
+#         attributes = ''.join(args[2:])
+#     dict_pattern = r"^{([^:]+?):\s*(.*?)}.*$"
+#     matched = re.search(dict_pattern, attributes)
+#     if matched:
+#         attr_name, attr_value = matched.groups()
+#         attr_name = attr_name.strip("{'\":")
+#         attr_value = attr_value.strip("'\"}")
+#     else:
+#         attr_name = args[2].strip("{'\":") if len(args) > 2 else ""
+#         attr_value = args[3].strip("'\"}") if len(args) > 3 else ""
 
-    if not attr_name and kwargs.get("atn", False):
-        print(error_messages["no_attr_name"])
-        return
+#     if not attr_name and kwargs.get("atn", False):
+#         print(error_messages["no_attr_name"])
+#         return
 
-    if not attr_value and kwargs.get("atv", False):
-        print(error_messages["no_attr_val"])
-        return
+#     if not attr_value and kwargs.get("atv", False):
+#         print(error_messages["no_attr_val"])
+#         return
 
-    return {
-        "obj_id": obj_id,
-        "cls_name": cls_name,
-        "attr_name": attr_name,
-        "attr_value": attr_value,
-    }
+#     return {
+#         "obj_id": obj_id,
+#         "cls_name": cls_name,
+#         "attr_name": attr_name,
+#         "attr_value": attr_value,
+#     }
 
 
 if __name__ == '__main__':
