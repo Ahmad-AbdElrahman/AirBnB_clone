@@ -328,10 +328,10 @@ class HBNBConsole(cmd.Cmd):
         print()
         return True
 
-    def do_quit(self, arg):
-        """Quit command to exit the program.
-        """
-        return True
+    # def do_quit(self, arg):
+    #     """Quit command to exit the program.
+    #     """
+    #     return True
 
     def emptyline(self):
         """
