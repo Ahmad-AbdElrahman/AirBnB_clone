@@ -57,7 +57,6 @@ class HBNBConsole(cmd.Cmd):
     console.
     """
 
-    intro = "Welcome to Airbnb console.\tType help or ? to list commands.\n"
     prompt = "(hbnb) "
     file = "hbnb.json"
 
@@ -319,7 +318,6 @@ class HBNBConsole(cmd.Cmd):
         Resets the console screen.
         """
         os.system('cls' if os.name == 'nt' else 'clear')
-        print(self.intro)
 
     def do_EOF(self, arg):
         """
