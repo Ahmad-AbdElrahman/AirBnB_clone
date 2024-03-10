@@ -118,13 +118,19 @@ TODO
 - Testing all files:
 
 ```sh
-$ python3 -m unittest discover tests
+$ python3 -m unittest discover
 ```
 
 - Testing the console file:
 
 ```sh
 $ python3 -m unittest tests.test_console
+```
+
+- Testing all test files in tests/test_models:
+
+```sh
+$ python3 -m unittest discover tests.test_models
 ```
 
 - Testing specific model file:
