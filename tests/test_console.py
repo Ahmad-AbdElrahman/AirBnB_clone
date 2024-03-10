@@ -6,7 +6,7 @@ from io import StringIO
 from unittest.mock import patch
 from models import storage
 from models import classes
-from console import HBNBConsole
+from console import HBNBCommand
 from console import error_messages
 
 
@@ -16,14 +16,14 @@ class TestConsoleExitOp(unittest.TestCase):
     def test_quit(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            HBNBConsole().onecmd("quit")
+            HBNBCommand().onecmd("quit")
         output = mock_stdout.getvalue()
         self.assertEqual(output, "")
 
     def test_EOF(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            HBNBConsole().onecmd("EOF")
+            HBNBCommand().onecmd("EOF")
         output = mock_stdout.getvalue()
         self.assertEqual(output, "\n")
 
@@ -33,7 +33,7 @@ class TestBaseModel(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "BaseModel"
 
     @classmethod
@@ -235,7 +235,7 @@ class TestBaseModelDotNotation(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "BaseModel"
 
     @classmethod
@@ -412,7 +412,7 @@ class TestUser(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "User"
 
     @classmethod
@@ -614,7 +614,7 @@ class TestUserDotNotation(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "User"
 
     @classmethod
@@ -791,7 +791,7 @@ class TestState(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "State"
 
     @classmethod
@@ -993,7 +993,7 @@ class TestStateDotNotation(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "State"
 
     @classmethod
@@ -1170,7 +1170,7 @@ class TestReview(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "Review"
 
     @classmethod
@@ -1372,7 +1372,7 @@ class TestReviewDotNotation(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "Review"
 
     @classmethod
@@ -1549,7 +1549,7 @@ class TestPlace(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "Place"
 
     @classmethod
@@ -1751,7 +1751,7 @@ class TestPlaceDotNotation(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "Place"
 
     @classmethod
@@ -1928,7 +1928,7 @@ class TestCity(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "City"
 
     @classmethod
@@ -2130,7 +2130,7 @@ class TestCityDotNotation(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "City"
 
     @classmethod
@@ -2307,7 +2307,7 @@ class TestAmenity(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "Amenity"
 
     @classmethod
@@ -2509,7 +2509,7 @@ class TestAmenityDotNotation(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.console = HBNBConsole()
+        cls.console = HBNBCommand()
         cls.cls_name = "Amenity"
 
     @classmethod
@@ -2686,7 +2686,7 @@ class TestConsoleHelp(unittest.TestCase):
     def test_help(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            HBNBConsole().onecmd("help")
+            HBNBCommand().onecmd("help")
         output = mock_stdout.getvalue().strip().split(":")[0]
         self.assertEqual(
             output,
@@ -2696,7 +2696,7 @@ class TestConsoleHelp(unittest.TestCase):
     def test_all(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            HBNBConsole().onecmd("help all")
+            HBNBCommand().onecmd("help all")
         output = mock_stdout.getvalue().strip().split(".")[0]
         self.assertEqual(
             output,
@@ -2706,7 +2706,7 @@ class TestConsoleHelp(unittest.TestCase):
     def test_quit(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            HBNBConsole().onecmd("help quit")
+            HBNBCommand().onecmd("help quit")
         output = mock_stdout.getvalue().strip()
         self.assertEqual(
             output,
