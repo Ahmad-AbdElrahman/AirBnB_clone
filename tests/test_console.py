@@ -232,7 +232,7 @@ class TestBaseModelDotNotation(unittest.TestCase):
     def test_create_basemodel(self):
         """Test create basemodel object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('BaseModel.create()'))
+            HBNBConsole().default('BaseModel.create()')
             self.assertIsInstance(f.getvalue().strip(), str)
             self.assertIn(
                 "BaseModel.{}".format(f.getvalue().strip()),
@@ -242,7 +242,7 @@ class TestBaseModelDotNotation(unittest.TestCase):
     def test_count_basemodel(self):
         """Test count basemodel object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('BaseModel.count()'))
+            HBNBConsole().default('BaseModel.count()')
             count = 0
             for i in storage.all().values():
                 if type(i) == BaseModel:
@@ -252,7 +252,7 @@ class TestBaseModelDotNotation(unittest.TestCase):
     def test_all_basemodel(self):
         """Test all basemodel object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('BaseModel.all()'))
+            HBNBConsole().default('BaseModel.all()')
             for item in json.loads(f.getvalue()):
                 self.assertEqual(item.split()[0], '[BaseModel]')
 
@@ -261,9 +261,8 @@ class TestBaseModelDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             b1 = BaseModel()
             b1.eyes = "green"
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'BaseModel.show({b1.id})')
-            )
+
+            HBNBConsole().default(f'BaseModel.show({b1.id})')
             res = f"[{type(b1).__name__}] ({b1.id}) {b1.__dict__}"
             self.assertEqual(f.getvalue().strip(), res)
 
@@ -272,17 +271,15 @@ class TestBaseModelDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             b1 = BaseModel()
             b1.name = "Cecilia"
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'BaseModel.update({b1.id}, name, "Ife")')
-            )
+
+            HBNBConsole().default(f'BaseModel.update({b1.id}, name, "Ife")')
             self.assertEqual(b1.__dict__["name"], "Ife")
 
         with patch('sys.stdout', new=StringIO()) as f:
             b1 = BaseModel()
             b1.age = 75
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'BaseModel.update({b1.id}, age, 25)')
-            )
+
+            HBNBConsole().default(f'BaseModel.update({b1.id}, age, 25)')
             self.assertIn("age", b1.__dict__.keys())
             self.assertEqual(b1.__dict__["age"], '25')
 
@@ -290,7 +287,7 @@ class TestBaseModelDotNotation(unittest.TestCase):
             b1 = BaseModel()
             b1.age = 60
             cmmd = f'BaseModel.update({b1.id}, age, 10, color, green)'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertIn("age", b1.__dict__.keys())
             self.assertNotIn("color", b1.__dict__.keys())
             self.assertEqual(b1.__dict__["age"], '10')
@@ -301,7 +298,7 @@ class TestBaseModelDotNotation(unittest.TestCase):
             b1 = BaseModel()
             b1.age = 75
             cmmd = f'BaseModel.update({b1.id}, "{{"age": 25,"color":"black"}}")'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertEqual(b1.__dict__["age"], '25')
             self.assertIsInstance(b1.__dict__["age"], str)
 
@@ -309,9 +306,7 @@ class TestBaseModelDotNotation(unittest.TestCase):
         """Test destroy basemodel object."""
         with patch('sys.stdout', new=StringIO()):
             bm = BaseModel()
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'BaseModel.destroy({bm.id})')
-            )
+            HBNBConsole().default(f'BaseModel.destroy({bm.id})')
             self.assertNotIn("BaseModel.{}".format(bm.id), storage.all().keys())
 
 
@@ -406,7 +401,7 @@ class TestUserDotNotation(unittest.TestCase):
     def test_create_user(self):
         """Test create user object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('User.create()'))
+            HBNBConsole().default('User.create()')
             self.assertIsInstance(f.getvalue().strip(), str)
             self.assertIn(
                 "User.{}".format(f.getvalue().strip()), storage.all().keys()
@@ -415,7 +410,7 @@ class TestUserDotNotation(unittest.TestCase):
     def test_count_user(self):
         """Test count user object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('User.count()'))
+            HBNBConsole().default('User.count()')
             count = 0
             for i in storage.all().values():
                 if type(i) == User:
@@ -425,7 +420,7 @@ class TestUserDotNotation(unittest.TestCase):
     def test_all_user(self):
         """Test all user object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('User.all()'))
+            HBNBConsole().default('User.all()')
             for item in json.loads(f.getvalue()):
                 self.assertEqual(item.split()[0], '[User]')
 
@@ -434,7 +429,7 @@ class TestUserDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             us = User()
             us.eyes = "green"
-            HBNBConsole().onecmd(HBNBConsole().precmd(f'User.show({us.id})'))
+            HBNBConsole().default(f'User.show({us.id})')
             res = f"[{type(us).__name__}] ({us.id}) {us.__dict__}"
             self.assertEqual(f.getvalue().strip(), res)
 
@@ -443,17 +438,13 @@ class TestUserDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             us = User()
             us.name = "Cecilia"
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'User.update({us.id}, name, "Ife")')
-            )
+            HBNBConsole().default(f'User.update({us.id}, name, "Ife")')
             self.assertEqual(us.__dict__["name"], "Ife")
 
         with patch('sys.stdout', new=StringIO()) as f:
             us = User()
             us.age = 75
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'User.update({us.id}, age, 25)')
-            )
+            HBNBConsole().default(f'User.update({us.id}, age, 25)')
             self.assertIn("age", us.__dict__.keys())
             self.assertEqual(us.__dict__["age"], '25')
 
@@ -461,7 +452,7 @@ class TestUserDotNotation(unittest.TestCase):
             us = User()
             us.age = 60
             cmmd = f'User.update({us.id}, age, 10, color, green)'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertIn("age", us.__dict__.keys())
             self.assertNotIn("color", us.__dict__.keys())
             self.assertEqual(us.__dict__["age"], '10')
@@ -472,7 +463,7 @@ class TestUserDotNotation(unittest.TestCase):
             us = User()
             us.age = 75
             cmmd = f'User.update({us.id}, ""{{"age": 25,"color":"black"}}"")'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertEqual(us.__dict__["age"], '25')
             self.assertIsInstance(us.__dict__["age"], str)
 
@@ -480,7 +471,7 @@ class TestUserDotNotation(unittest.TestCase):
         """Test destroy user object."""
         with patch('sys.stdout', new=StringIO()):
             us = User()
-            HBNBConsole().onecmd(HBNBConsole().precmd(f'User.destroy({us.id})'))
+            HBNBConsole().default(f'User.destroy({us.id})')
             self.assertNotIn("User.{}".format(us.id), storage.all().keys())
 
 
@@ -568,7 +559,7 @@ class TestStateDotNotation(unittest.TestCase):
     def test_create_state(self):
         """Test create state object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('State.create()'))
+            HBNBConsole().default('State.create()')
             self.assertIsInstance(f.getvalue().strip(), str)
             self.assertIn(
                 "State.{}".format(f.getvalue().strip()), storage.all().keys()
@@ -577,7 +568,7 @@ class TestStateDotNotation(unittest.TestCase):
     def test_count_state(self):
         """Test count state object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('State.count()'))
+            HBNBConsole().default('State.count()')
             count = 0
             for i in storage.all().values():
                 if type(i) == State:
@@ -587,7 +578,7 @@ class TestStateDotNotation(unittest.TestCase):
     def test_all_state(self):
         """Test all state object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('State.all()'))
+            HBNBConsole().default('State.all()')
             for item in json.loads(f.getvalue()):
                 self.assertEqual(item.split()[0], '[State]')
 
@@ -596,7 +587,7 @@ class TestStateDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             st = State()
             st.eyes = "green"
-            HBNBConsole().onecmd(HBNBConsole().precmd(f'State.show({st.id})'))
+            HBNBConsole().default(f'State.show({st.id})')
             res = f"[{type(st).__name__}] ({st.id}) {st.__dict__}"
             self.assertEqual(f.getvalue().strip(), res)
 
@@ -605,17 +596,13 @@ class TestStateDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             st = State()
             st.name = "Cecilia"
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'State.update({st.id}, name, "Ife")')
-            )
+            HBNBConsole().default(f'State.update({st.id}, name, "Ife")')
             self.assertEqual(st.__dict__["name"], "Ife")
 
         with patch('sys.stdout', new=StringIO()) as f:
             st = State()
             st.age = 75
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'State.update({st.id}, age, 25)')
-            )
+            HBNBConsole().default(f'State.update({st.id}, age, 25)')
             self.assertIn("age", st.__dict__.keys())
             self.assertEqual(st.__dict__["age"], '25')
 
@@ -623,7 +610,7 @@ class TestStateDotNotation(unittest.TestCase):
             st = State()
             st.age = 60
             cmmd = f'State.update({st.id}, age, 10, color, green)'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertIn("age", st.__dict__.keys())
             self.assertNotIn("color", st.__dict__.keys())
             self.assertEqual(st.__dict__["age"], '10')
@@ -634,7 +621,7 @@ class TestStateDotNotation(unittest.TestCase):
             st = State()
             st.age = 75
             cmmd = f'State.update({st.id}, "{{"age": 25,"color":"black"}}")'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertEqual(st.__dict__["age"], '25')
             self.assertIsInstance(st.__dict__["age"], str)
 
@@ -642,9 +629,7 @@ class TestStateDotNotation(unittest.TestCase):
         """Test destroy state object."""
         with patch('sys.stdout', new=StringIO()):
             st = State()
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'State.destroy({st.id})')
-            )
+            HBNBConsole().default(f'State.destroy({st.id})')
             self.assertNotIn("State.{}".format(st.id), storage.all().keys())
 
 
@@ -732,7 +717,7 @@ class TestReviewDotNotation(unittest.TestCase):
     def test_create_review(self):
         """Test create review object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('Review.create()'))
+            HBNBConsole().default('Review.create()')
             self.assertIsInstance(f.getvalue().strip(), str)
             self.assertIn(
                 "Review.{}".format(f.getvalue().strip()), storage.all().keys()
@@ -741,7 +726,7 @@ class TestReviewDotNotation(unittest.TestCase):
     def test_count_review(self):
         """Test count review object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('Review.count()'))
+            HBNBConsole().default('Review.count()')
             count = 0
             for i in storage.all().values():
                 if type(i) == Review:
@@ -751,7 +736,7 @@ class TestReviewDotNotation(unittest.TestCase):
     def test_all_review(self):
         """Test all review object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('Review.all()'))
+            HBNBConsole().default('Review.all()')
             for item in json.loads(f.getvalue()):
                 self.assertEqual(item.split()[0], '[Review]')
 
@@ -760,7 +745,7 @@ class TestReviewDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             rv = Review()
             rv.eyes = "green"
-            HBNBConsole().onecmd(HBNBConsole().precmd(f'Review.show({rv.id})'))
+            HBNBConsole().default(f'Review.show({rv.id})')
             res = f"[{type(rv).__name__}] ({rv.id}) {rv.__dict__}"
             self.assertEqual(f.getvalue().strip(), res)
 
@@ -769,17 +754,13 @@ class TestReviewDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             rv = Review()
             rv.name = "Cecilia"
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'Review.update({rv.id}, name, "Ife")')
-            )
+            HBNBConsole().default(f'Review.update({rv.id}, name, "Ife")')
             self.assertEqual(rv.__dict__["name"], "Ife")
 
         with patch('sys.stdout', new=StringIO()) as f:
             rv = Review()
             rv.age = 75
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'Review.update({rv.id}, age, 25)')
-            )
+            HBNBConsole().default(f'Review.update({rv.id}, age, 25)')
             self.assertIn("age", rv.__dict__.keys())
             self.assertEqual(rv.__dict__["age"], '25')
 
@@ -787,7 +768,7 @@ class TestReviewDotNotation(unittest.TestCase):
             rv = Review()
             rv.age = 60
             cmmd = f'Review.update({rv.id}, age, 10, color, green)'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertIn("age", rv.__dict__.keys())
             self.assertNotIn("color", rv.__dict__.keys())
             self.assertEqual(rv.__dict__["age"], '10')
@@ -798,7 +779,7 @@ class TestReviewDotNotation(unittest.TestCase):
             rv = Review()
             rv.age = 75
             cmmd = f'Review.update({rv.id}, "{{"age": 25,"color":"black"}}")'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertEqual(rv.__dict__["age"], '25')
             self.assertIsInstance(rv.__dict__["age"], str)
 
@@ -806,9 +787,7 @@ class TestReviewDotNotation(unittest.TestCase):
         """Test destroy review object."""
         with patch('sys.stdout', new=StringIO()):
             rv = Review()
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'Review.destroy({rv.id})')
-            )
+            HBNBConsole().default(f'Review.destroy({rv.id})')
             self.assertNotIn("Review.{}".format(rv.id), storage.all().keys())
 
 
@@ -896,7 +875,7 @@ class TestPlaceDotNotation(unittest.TestCase):
     def test_create_place(self):
         """Test create place object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('Place.create()'))
+            HBNBConsole().default('Place.create()')
             self.assertIsInstance(f.getvalue().strip(), str)
             self.assertIn(
                 "Place.{}".format(f.getvalue().strip()), storage.all().keys()
@@ -905,7 +884,7 @@ class TestPlaceDotNotation(unittest.TestCase):
     def test_count_place(self):
         """Test count place object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('Place.count()'))
+            HBNBConsole().default('Place.count()')
             count = 0
             for i in storage.all().values():
                 if type(i) == Place:
@@ -915,7 +894,7 @@ class TestPlaceDotNotation(unittest.TestCase):
     def test_all_place(self):
         """Test all place object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('Place.all()'))
+            HBNBConsole().default('Place.all()')
             for item in json.loads(f.getvalue()):
                 self.assertEqual(item.split()[0], '[Place]')
 
@@ -924,7 +903,7 @@ class TestPlaceDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             pl = Place()
             pl.eyes = "green"
-            HBNBConsole().onecmd(HBNBConsole().precmd(f'Place.show({pl.id})'))
+            HBNBConsole().default(f'Place.show({pl.id})')
             res = f"[{type(pl).__name__}] ({pl.id}) {pl.__dict__}"
             self.assertEqual(f.getvalue().strip(), res)
 
@@ -933,17 +912,13 @@ class TestPlaceDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             pl = Place()
             pl.name = "Cecilia"
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'Place.update({pl.id}, name, "Ife")')
-            )
+            HBNBConsole().default(f'Place.update({pl.id}, name, "Ife")')
             self.assertEqual(pl.__dict__["name"], "Ife")
 
         with patch('sys.stdout', new=StringIO()) as f:
             pl = Place()
             pl.age = 75
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'Place.update({pl.id}, age, 25)')
-            )
+            HBNBConsole().default(f'Place.update({pl.id}, age, 25)')
             self.assertIn("age", pl.__dict__.keys())
             self.assertEqual(pl.__dict__["age"], '25')
 
@@ -951,7 +926,7 @@ class TestPlaceDotNotation(unittest.TestCase):
             pl = Place()
             pl.age = 60
             cmmd = f'Place.update({pl.id}, age, 10, color, green)'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertIn("age", pl.__dict__.keys())
             self.assertNotIn("color", pl.__dict__.keys())
             self.assertEqual(pl.__dict__["age"], '10')
@@ -962,7 +937,7 @@ class TestPlaceDotNotation(unittest.TestCase):
             pl = Place()
             pl.age = 75
             cmmd = f'Place.update({pl.id}, "{{"age": 25,"color":"black"}}")'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertEqual(pl.__dict__["age"], '25')
             self.assertIsInstance(pl.__dict__["age"], str)
 
@@ -970,9 +945,7 @@ class TestPlaceDotNotation(unittest.TestCase):
         """Test destroy place object."""
         with patch('sys.stdout', new=StringIO()):
             pl = Place()
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'Place.destroy({pl.id})')
-            )
+            HBNBConsole().default(f'Place.destroy({pl.id})')
             self.assertNotIn("Place.{}".format(pl.id), storage.all().keys())
 
 
@@ -1060,7 +1033,7 @@ class TestAmenityDotNotation(unittest.TestCase):
     def test_create_amenity(self):
         """Test create amenity object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('Amenity.create()'))
+            HBNBConsole().default('Amenity.create()')
             self.assertIsInstance(f.getvalue().strip(), str)
             self.assertIn(
                 "Amenity.{}".format(f.getvalue().strip()), storage.all().keys()
@@ -1069,7 +1042,7 @@ class TestAmenityDotNotation(unittest.TestCase):
     def test_count_amenity(self):
         """Test count amenity object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('Amenity.count()'))
+            HBNBConsole().default('Amenity.count()')
             count = 0
             for i in storage.all().values():
                 if type(i) == Amenity:
@@ -1079,7 +1052,7 @@ class TestAmenityDotNotation(unittest.TestCase):
     def test_all_amenity(self):
         """Test all amenity object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('Amenity.all()'))
+            HBNBConsole().default('Amenity.all()')
             for item in json.loads(f.getvalue()):
                 self.assertEqual(item.split()[0], '[Amenity]')
 
@@ -1088,7 +1061,7 @@ class TestAmenityDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             am = Amenity()
             am.eyes = "green"
-            HBNBConsole().onecmd(HBNBConsole().precmd(f'Amenity.show({am.id})'))
+            HBNBConsole().default(f'Amenity.show({am.id})')
             res = f"[{type(am).__name__}] ({am.id}) {am.__dict__}"
             self.assertEqual(f.getvalue().strip(), res)
 
@@ -1097,17 +1070,13 @@ class TestAmenityDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             am = Amenity()
             am.name = "Cecilia"
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'Amenity.update({am.id}, name, "Ife")')
-            )
+            HBNBConsole().default(f'Amenity.update({am.id}, name, "Ife")')
             self.assertEqual(am.__dict__["name"], "Ife")
 
         with patch('sys.stdout', new=StringIO()) as f:
             am = Amenity()
             am.age = 75
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'Amenity.update({am.id}, age, 25)')
-            )
+            HBNBConsole().default(f'Amenity.update({am.id}, age, 25)')
             self.assertIn("age", am.__dict__.keys())
             self.assertEqual(am.__dict__["age"], '25')
 
@@ -1115,7 +1084,7 @@ class TestAmenityDotNotation(unittest.TestCase):
             am = Amenity()
             am.age = 60
             cmmd = f'Amenity.update({am.id}, age, 10, color, green)'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertIn("age", am.__dict__.keys())
             self.assertNotIn("color", am.__dict__.keys())
             self.assertEqual(am.__dict__["age"], '10')
@@ -1126,7 +1095,7 @@ class TestAmenityDotNotation(unittest.TestCase):
             am = Amenity()
             am.age = 75
             cmmd = f'Amenity.update({am.id}, "{{"age": 25,"color":"black"}}")'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertEqual(am.__dict__["age"], '25')
             self.assertIsInstance(am.__dict__["age"], str)
 
@@ -1134,9 +1103,7 @@ class TestAmenityDotNotation(unittest.TestCase):
         """Test destroy amenity object."""
         with patch('sys.stdout', new=StringIO()):
             am = Amenity()
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'Amenity.destroy({am.id})')
-            )
+            HBNBConsole().default(f'Amenity.destroy({am.id})')
             self.assertNotIn("Amenity.{}".format(am.id), storage.all().keys())
 
 
@@ -1224,7 +1191,7 @@ class TestCityDotNotation(unittest.TestCase):
     def test_create_city(self):
         """Test create city object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('City.create()'))
+            HBNBConsole().default('City.create()')
             self.assertIsInstance(f.getvalue().strip(), str)
             self.assertIn(
                 "City.{}".format(f.getvalue().strip()), storage.all().keys()
@@ -1233,7 +1200,7 @@ class TestCityDotNotation(unittest.TestCase):
     def test_count_city(self):
         """Test count city object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('City.count()'))
+            HBNBConsole().default('City.count()')
             count = 0
             for i in storage.all().values():
                 if type(i) == City:
@@ -1243,7 +1210,7 @@ class TestCityDotNotation(unittest.TestCase):
     def test_all_city(self):
         """Test all city object."""
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBConsole().onecmd(HBNBConsole().precmd('City.all()'))
+            HBNBConsole().default('City.all()')
             for item in json.loads(f.getvalue()):
                 self.assertEqual(item.split()[0], '[City]')
 
@@ -1252,7 +1219,7 @@ class TestCityDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             cty = City()
             cty.eyes = "green"
-            HBNBConsole().onecmd(HBNBConsole().precmd(f'City.show({cty.id})'))
+            HBNBConsole().default(f'City.show({cty.id})')
             res = f"[{type(cty).__name__}] ({cty.id}) {cty.__dict__}"
             self.assertEqual(f.getvalue().strip(), res)
 
@@ -1261,17 +1228,13 @@ class TestCityDotNotation(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             cty = City()
             cty.name = "Cecilia"
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'City.update({cty.id}, name, "Ife")')
-            )
+            HBNBConsole().default(f'City.update({cty.id}, name, "Ife")')
             self.assertEqual(cty.__dict__["name"], "Ife")
 
         with patch('sys.stdout', new=StringIO()) as f:
             cty = City()
             cty.age = 75
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'City.update({cty.id}, age, 25)')
-            )
+            HBNBConsole().default(f'City.update({cty.id}, age, 25)')
             self.assertIn("age", cty.__dict__.keys())
             self.assertEqual(cty.__dict__["age"], '25')
 
@@ -1279,7 +1242,7 @@ class TestCityDotNotation(unittest.TestCase):
             cty = City()
             cty.age = 60
             cmmd = f'City.update({cty.id}, age, 10, color, green)'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertIn("age", cty.__dict__.keys())
             self.assertNotIn("color", cty.__dict__.keys())
             self.assertEqual(cty.__dict__["age"], '10')
@@ -1290,7 +1253,7 @@ class TestCityDotNotation(unittest.TestCase):
             cty = City()
             cty.age = 75
             cmmd = f'City.update({cty.id}, "{{"age": 25,"color":"black"}}")'
-            HBNBConsole().onecmd(HBNBConsole().precmd(cmmd))
+            HBNBConsole().default(cmmd)
             self.assertEqual(cty.__dict__["age"], '25')
             self.assertIsInstance(cty.__dict__["age"], str)
 
@@ -1298,7 +1261,5 @@ class TestCityDotNotation(unittest.TestCase):
         """Test destroy city object."""
         with patch('sys.stdout', new=StringIO()):
             cty = City()
-            HBNBConsole().onecmd(
-                HBNBConsole().precmd(f'City.destroy({cty.id})')
-            )
+            HBNBConsole().default(f'City.destroy({cty.id})')
             self.assertNotIn("City.{}".format(cty.id), storage.all().keys())
