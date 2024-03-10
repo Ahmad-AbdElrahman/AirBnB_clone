@@ -77,9 +77,9 @@ class HBNBCommand(cmd.Cmd):
         commands = {
             "create": self.do_create,
             # "count": self.do_count,
-            # "all": self.do_all,
-            # "show": self.do_show,
-            # "destroy": self.do_destroy,
+            "all": self.do_all,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
             # "update": self.do_update,
         }
 
