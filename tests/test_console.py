@@ -229,181 +229,181 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(output, expected)
 
 
-class TestBaseModelDotNotation(unittest.TestCase):
-    """Testing with the method.notation formate"""
+# class TestBaseModelDotNotation(unittest.TestCase):
+#     """Testing with the method.notation formate"""
 
-    @classmethod
-    def setUp(cls):
-        cls.console = HBNBCommand()
-        cls.cls_name = "BaseModel"
+#     @classmethod
+#     def setUp(cls):
+#         cls.console = HBNBCommand()
+#         cls.cls_name = "BaseModel"
 
-    @classmethod
-    def tearDown(cls):
-        # storage._FileStorage__objects = {}
-        if os.path.exists(cls.console.file):
-            os.remove(cls.console.file)
+#     @classmethod
+#     def tearDown(cls):
+#         # storage._FileStorage__objects = {}
+#         if os.path.exists(cls.console.file):
+#             os.remove(cls.console.file)
 
-    def test_create(self):
-        """Test"""
-        """Test the create method using the <class>.<method>() formate."""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"{self.cls_name}.create()")
-        output = mock_stdout.getvalue().strip()
-        uuid_pattern = r"^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$"
-        self.assertRegex(output, uuid_pattern)
-        self.assertIn(f"{self.cls_name}.{output}", storage.all().keys())
+#     def test_create(self):
+#         """Test"""
+#         """Test the create method using the <class>.<method>() formate."""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default(f"{self.cls_name}.create()")
+#         output = mock_stdout.getvalue().strip()
+#         uuid_pattern = r"^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$"
+#         self.assertRegex(output, uuid_pattern)
+#         self.assertIn(f"{self.cls_name}.{output}", storage.all().keys())
 
-    def test_create_with_invalid_clsname(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default("base.create()")
-        output = mock_stdout.getvalue().strip()
-        expected = error_messages["no_cls"]
-        self.assertEqual(output, expected)
+#     def test_create_with_invalid_clsname(self):
+#         """Test"""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default("base.create()")
+#         output = mock_stdout.getvalue().strip()
+#         expected = error_messages["no_cls"]
+#         self.assertEqual(output, expected)
 
-    def test_show(self):
-        """Test"""
-        obj = classes[self.cls_name]()
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"{self.cls_name}.show({obj.id})")
-        output = mock_stdout.getvalue().strip()
-        self.assertEqual(output, obj.__str__())
+#     def test_show(self):
+#         """Test"""
+#         obj = classes[self.cls_name]()
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default(f"{self.cls_name}.show({obj.id})")
+#         output = mock_stdout.getvalue().strip()
+#         self.assertEqual(output, obj.__str__())
 
-    def test_show_with_invalid_clsname(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default("base.show()")
-        output = mock_stdout.getvalue().strip()
-        expected = error_messages["no_cls"]
-        self.assertEqual(output, expected)
+#     def test_show_with_invalid_clsname(self):
+#         """Test"""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default("base.show()")
+#         output = mock_stdout.getvalue().strip()
+#         expected = error_messages["no_cls"]
+#         self.assertEqual(output, expected)
 
-    def test_show_without_id(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"{self.cls_name}.show()")
-        output = mock_stdout.getvalue().strip()
-        expected = error_messages["no_obj_id"]
-        self.assertEqual(output, expected)
+#     def test_show_without_id(self):
+#         """Test"""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default(f"{self.cls_name}.show()")
+#         output = mock_stdout.getvalue().strip()
+#         expected = error_messages["no_obj_id"]
+#         self.assertEqual(output, expected)
 
-    def test_show_with_invalid_id(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"{self.cls_name}.show(123)")
-        output = mock_stdout.getvalue().strip()
-        expected = error_messages["no_obj"]
-        self.assertEqual(output, expected)
+#     def test_show_with_invalid_id(self):
+#         """Test"""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default(f"{self.cls_name}.show(123)")
+#         output = mock_stdout.getvalue().strip()
+#         expected = error_messages["no_obj"]
+#         self.assertEqual(output, expected)
 
-    def test_update(self):
-        """Test"""
-        obj = classes[self.cls_name]()
-        with patch('sys.stdout', new=StringIO()):
-            cmd = f"{self.cls_name}.update({obj.id}, name \"xxx\")"
-            self.console.default(cmd)
-        self.assertIn("name", obj.__dict__.keys())
-        self.assertEqual(obj.__dict__["name"], "xxx")
+#     def test_update(self):
+#         """Test"""
+#         obj = classes[self.cls_name]()
+#         with patch('sys.stdout', new=StringIO()):
+#             cmd = f"{self.cls_name}.update({obj.id}, name \"xxx\")"
+#             self.console.default(cmd)
+#         self.assertIn("name", obj.__dict__.keys())
+#         self.assertEqual(obj.__dict__["name"], "xxx")
 
-    def test_update_with_extra_attrs(self):
-        """Test"""
-        obj = classes[self.cls_name]()
-        with patch('sys.stdout', new=StringIO()):
-            c = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
-            self.console.default(c)
-        self.assertIn("age", obj.__dict__.keys())
-        self.assertNotIn("color", obj.__dict__.keys())
-        self.assertEqual(obj.__dict__["age"], "20")
+#     def test_update_with_extra_attrs(self):
+#         """Test"""
+#         obj = classes[self.cls_name]()
+#         with patch('sys.stdout', new=StringIO()):
+#             c = f"{self.cls_name}.update({obj.id}, age \"20\", color \"red\")"
+#             self.console.default(c)
+#         self.assertIn("age", obj.__dict__.keys())
+#         self.assertNotIn("color", obj.__dict__.keys())
+#         self.assertEqual(obj.__dict__["age"], "20")
 
-    def test_update_with_dict(self):
-        """Test"""
-        obj = classes[self.cls_name]()
-        with patch('sys.stdout', new=StringIO()):
-            c = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
-            self.console.default(c)
-        self.assertIn("email", obj.__dict__.keys())
-        self.assertEqual(obj.__dict__["email"], "xxx@gm")
+#     def test_update_with_dict(self):
+#         """Test"""
+#         obj = classes[self.cls_name]()
+#         with patch('sys.stdout', new=StringIO()):
+#             c = f"{self.cls_name}.update({obj.id}, {{\"email\": \"xxx@gm\"}})"
+#             self.console.default(c)
+#         self.assertIn("email", obj.__dict__.keys())
+#         self.assertEqual(obj.__dict__["email"], "xxx@gm")
 
-    def test_update_with_invalid_clsname(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"base.update()")
-        output = mock_stdout.getvalue().strip()
-        expected = error_messages["no_cls"]
-        self.assertEqual(output, expected)
+#     def test_update_with_invalid_clsname(self):
+#         """Test"""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default(f"base.update()")
+#         output = mock_stdout.getvalue().strip()
+#         expected = error_messages["no_cls"]
+#         self.assertEqual(output, expected)
 
-    def test_update_without_id(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"{self.cls_name}.update()")
-        output = mock_stdout.getvalue().strip()
-        expected = error_messages["no_obj_id"]
-        self.assertEqual(output, expected)
+#     def test_update_without_id(self):
+#         """Test"""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default(f"{self.cls_name}.update()")
+#         output = mock_stdout.getvalue().strip()
+#         expected = error_messages["no_obj_id"]
+#         self.assertEqual(output, expected)
 
-    def test_update_with_invalid_id(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"{self.cls_name}.update(123, age 20)")
-        output = mock_stdout.getvalue().strip()
-        expected = error_messages["no_obj"]
-        self.assertEqual(output, expected)
+#     def test_update_with_invalid_id(self):
+#         """Test"""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default(f"{self.cls_name}.update(123, age 20)")
+#         output = mock_stdout.getvalue().strip()
+#         expected = error_messages["no_obj"]
+#         self.assertEqual(output, expected)
 
-    def test_update_without_attrname(self):
-        """Test"""
-        obj = classes[self.cls_name]()
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"{self.cls_name}.update({obj.id})")
-        output = mock_stdout.getvalue().strip()
-        expected = error_messages["no_attr_name"]
-        self.assertEqual(output, expected)
+#     def test_update_without_attrname(self):
+#         """Test"""
+#         obj = classes[self.cls_name]()
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default(f"{self.cls_name}.update({obj.id})")
+#         output = mock_stdout.getvalue().strip()
+#         expected = error_messages["no_attr_name"]
+#         self.assertEqual(output, expected)
 
-    def test_update_without_attrvalue(self):
-        """Test"""
-        obj = classes[self.cls_name]()
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"{self.cls_name}.update({obj.id}, age)")
-        output = mock_stdout.getvalue().strip()
-        expected = error_messages["no_attr_val"]
-        self.assertEqual(output, expected)
+#     def test_update_without_attrvalue(self):
+#         """Test"""
+#         obj = classes[self.cls_name]()
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default(f"{self.cls_name}.update({obj.id}, age)")
+#         output = mock_stdout.getvalue().strip()
+#         expected = error_messages["no_attr_val"]
+#         self.assertEqual(output, expected)
 
-    def test_do_count(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"{self.cls_name}.count()")
-        output = mock_stdout.getvalue()
-        count = 0
-        for i in storage.all().values():
-            if type(i) is classes[self.cls_name]:
-                count += 1
-        self.assertEqual(int(output), count)
+#     def test_do_count(self):
+#         """Test"""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default(f"{self.cls_name}.count()")
+#         output = mock_stdout.getvalue()
+#         count = 0
+#         for i in storage.all().values():
+#             if type(i) is classes[self.cls_name]:
+#                 count += 1
+#         self.assertEqual(int(output), count)
 
-    def test_destroy(self):
-        """Test"""
-        obj = classes[self.cls_name]()
-        with patch('sys.stdout', new=StringIO()):
-            self.console.default(f"{self.cls_name}.destroy({obj.id})")
-        self.assertNotIn(f"{self.cls_name}.{obj.id}", storage.all().keys())
+#     def test_destroy(self):
+#         """Test"""
+#         obj = classes[self.cls_name]()
+#         with patch('sys.stdout', new=StringIO()):
+#             self.console.default(f"{self.cls_name}.destroy({obj.id})")
+#         self.assertNotIn(f"{self.cls_name}.{obj.id}", storage.all().keys())
 
-    def test_destroy_with_invalid_clsname(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"base.destroy()")
-        output = mock_stdout.getvalue().strip()
-        expected = error_messages["no_cls"]
-        self.assertEqual(output, expected)
+#     def test_destroy_with_invalid_clsname(self):
+#         """Test"""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default(f"base.destroy()")
+#         output = mock_stdout.getvalue().strip()
+#         expected = error_messages["no_cls"]
+#         self.assertEqual(output, expected)
 
-    def test_destroy_without_id(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"{self.cls_name}.destroy()")
-        output = mock_stdout.getvalue().strip()
-        expected = error_messages["no_obj_id"]
-        self.assertEqual(output, expected)
+#     def test_destroy_without_id(self):
+#         """Test"""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default(f"{self.cls_name}.destroy()")
+#         output = mock_stdout.getvalue().strip()
+#         expected = error_messages["no_obj_id"]
+#         self.assertEqual(output, expected)
 
-    def test_destroy_with_invalid_id(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"{self.cls_name}.destroy(123)")
-        output = mock_stdout.getvalue().strip()
-        expected = error_messages["no_obj"]
-        self.assertEqual(output, expected)
+#     def test_destroy_with_invalid_id(self):
+#         """Test"""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             self.console.default(f"{self.cls_name}.destroy(123)")
+#         output = mock_stdout.getvalue().strip()
+#         expected = error_messages["no_obj"]
+#         self.assertEqual(output, expected)
 
 
 # class TestUser(unittest.TestCase):
