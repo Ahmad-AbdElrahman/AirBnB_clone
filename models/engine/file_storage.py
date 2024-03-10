@@ -37,7 +37,7 @@ class FileStorage:
         """
         Returns A dictionary containing all instances stored in __objects.
         """
-        return FileStorage.__objects
+        return self.__objects
 
     def new(self, obj):
         """
@@ -47,14 +47,14 @@ class FileStorage:
         -   obj (BaseModel): The object to be added.
         """
         key = f"{obj.__class__.__name__}.{obj.id}"
-        FileStorage.__objects[key] = obj
+        self.__objects[key] = obj
 
     def save(self):
         """
         Serializes __objects to the JSON file (path: __file_path)
         """
-        with open(FileStorage.__file_path, 'w') as f:
-            _dict = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
+        with open(self.__file_path, 'w') as f:
+            _dict = {k: v.to_dict() for k, v in self.__objects.items()}
             json.dump(_dict, f)
 
     def reload(self):
@@ -65,9 +65,9 @@ class FileStorage:
         """
 
         try:
-            with open(FileStorage.__file_path) as f:
+            with open(self.__file_path) as f:
                 _dict = json.loads(f.read())
-                FileStorage.__objects = {
+                self.__objects = {
                     key: classes[key.split('.')[0]](**obj)
                     for key, obj in _dict.items()
                 }
