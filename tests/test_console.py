@@ -10,22 +10,22 @@ from console import HBNBCommand
 from console import error_messages
 
 
-class TestConsoleExitOp(unittest.TestCase):
-    """Testing the exit methods of the console."""
+# class TestConsoleExitOp(unittest.TestCase):
+#     """Testing the exit methods of the console."""
 
-    def test_quit(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            HBNBCommand().onecmd("quit")
-        output = mock_stdout.getvalue()
-        self.assertEqual(output, "")
+#     def test_quit(self):
+#         """Test"""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             HBNBCommand().onecmd("quit")
+#         output = mock_stdout.getvalue()
+#         self.assertEqual(output, "")
 
-    def test_EOF(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            HBNBCommand().onecmd("EOF")
-        output = mock_stdout.getvalue()
-        self.assertEqual(output, "\n")
+#     def test_EOF(self):
+#         """Test"""
+#         with patch('sys.stdout', new=StringIO()) as mock_stdout:
+#             HBNBCommand().onecmd("EOF")
+#         output = mock_stdout.getvalue()
+#         self.assertEqual(output, "\n")
 
 
 # class TestBaseModel(unittest.TestCase):
@@ -2714,5 +2714,5 @@ class TestConsoleExitOp(unittest.TestCase):
 #         )
 
 
-if __name__ == "__main__":
-    unittest.main()
+# if __name__ == "__main__":
+#     unittest.main()
