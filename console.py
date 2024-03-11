@@ -75,11 +75,11 @@ class HBNBCommand(cmd.Cmd):
         -   line (str): The user input command string.
         """
         commands = {
-            "update": self.do_update,
-            "create": self.do_create,
-            "count": self.do_count,
-            "all": self.do_all,
+            # "create": self.do_create,
             "show": self.do_show,
+            "update": self.do_update,
+            "all": self.do_all,
+            "count": self.do_count,
             "destroy": self.do_destroy,
         }
 
