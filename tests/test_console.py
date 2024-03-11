@@ -39,11 +39,13 @@ class TestConsole(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
+        """Initial setup for the class before all operations"""
         cls.console = HBNBCommand()
         cls.cls_name = "BaseModel"
 
     @classmethod
     def tearDown(cls):
+        """Tear down setup after all operations"""
         if os.path.exists(cls.console.file):
             os.remove(cls.console.file)
 
@@ -244,11 +246,13 @@ class TestConsoleDotNotation(unittest.TestCase):
 
     @classmethod
     def setUp(cls):
+        """Initial setup for the class before all operations"""
         cls.console = HBNBCommand()
         cls.cls_name = "BaseModel"
 
     @classmethod
     def tearDown(cls):
+        """Tear down setup after all operations"""
         if os.path.exists(cls.console.file):
             os.remove(cls.console.file)
 
