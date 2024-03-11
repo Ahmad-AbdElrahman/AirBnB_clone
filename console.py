@@ -75,6 +75,7 @@ class HBNBCommand(cmd.Cmd):
         -   line (str): The user input command string.
         """
         commands = {
+            # "create": self.do_create, 👈 WILL CREATE AN ISSUE WITH THE CHECKER!!!
             "all": self.do_all,
             "show": self.do_show,
             "count": self.do_count,
