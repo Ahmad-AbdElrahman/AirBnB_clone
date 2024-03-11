@@ -65,7 +65,7 @@ class TestBase(unittest.TestCase):
         """Tests that storage.save() is called from save()."""
         b = BaseModel()
         b.save()
-        key = "{}.{}".format(type(b).__name__, b.id)
+        key = f"{type(b).__name__}.{b.id}"
         d = {key: b.to_dict()}
         self.assertTrue(os.path.isfile(self.path))
         with open(self.path, "r", encoding="utf-8") as f:
@@ -73,19 +73,19 @@ class TestBase(unittest.TestCase):
             f.seek(0)
             self.assertEqual(json.load(f), d)
 
-    # def test_save_no_args(self):
-    #     """Tests save() with no arguments."""
-    #     with self.assertRaises(TypeError) as e:
-    #         BaseModel.save()
-    #     msg = "save() missing 1 required positional argument: 'self'"
-    #     self.assertEqual(str(e.exception), msg)
+    def test_save_no_args(self):
+        """Tests save() with no arguments."""
+        with self.assertRaises(TypeError) as e:
+            BaseModel.save()
+        msg = "save() missing 1 required positional argument: 'self'"
+        self.assertEqual(str(e.exception), msg)
 
-    # def test_save_excess_args(self):
-    #     """Tests save() with too many arguments."""
-    #     with self.assertRaises(TypeError) as e:
-    #         BaseModel.save(self, 98)
-    #     msg = "save() takes 1 positional argument but 2 were given"
-    #     self.assertEqual(str(e.exception), msg)
+    def test_save_excess_args(self):
+        """Tests save() with too many arguments."""
+        with self.assertRaises(TypeError) as e:
+            BaseModel.save(self, 98)
+        msg = "save() takes 1 positional argument but 2 were given"
+        self.assertEqual(str(e.exception), msg)
 
     def test_str(self):
         """Test method for str representation"""
