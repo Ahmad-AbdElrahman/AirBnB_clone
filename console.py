@@ -75,10 +75,10 @@ class HBNBCommand(cmd.Cmd):
         -   line (str): The user input command string.
         """
         commands = {
-            "show": self.do_show,
-            "update": self.do_update,
             "all": self.do_all,
+            "show": self.do_show,
             "count": self.do_count,
+            "update": self.do_update,
             "destroy": self.do_destroy,
         }
 
@@ -113,7 +113,9 @@ class HBNBCommand(cmd.Cmd):
         attr_value = cmd[2].split(',')[2] if len(cmd[2].split(',')) > 2 else ""
         args = f"{cls_name} {obj_id} {attr_name} {attr_value}"
         if method == "update":
-            commands[method](args, check_id=True, atn=True, atv=True)
+            commands[method](
+                args, check_id=True, check_attr_name=True, check_attr_val=True
+            )
             return
 
     def do_create(self, arg):
@@ -198,7 +200,9 @@ class HBNBCommand(cmd.Cmd):
         ]
         print(obj_list)
 
-    def do_update(self, arg, check_id=True, atn=True, atv=True):
+    def do_update(
+        self, arg, check_id=True, check_attr_name=True, check_attr_val=True
+    ):
         """
         Updates an instance based on the class name and its id.
 
@@ -207,17 +211,22 @@ class HBNBCommand(cmd.Cmd):
         -   check_id (bool):
                 If True, checks if an instance id is provided.
                 (defaults to True)
-        -   atn (bool):
+        -   check_attr_name (bool):
                 If True, checks if an attribute name is provided.
                 (defaults to True)
-        -   atv (bool):
+        -   check_attr_val (bool):
                 If True, checks if an attribute value is provided.
                 (defaults to True)
 
         Raises:
         -   None (prints error messages to the console).
         """
-        args = validate(arg, check_id=check_id, atn=atn, atv=atv)
+        args = validate(
+            arg,
+            check_id=check_id,
+            check_attr_name=check_attr_name,
+            check_attr_val=check_attr_val,
+        )
         if not args:
             return
 
@@ -317,10 +326,10 @@ def validate(arg, **kwargs):
             - check_id (bool):
                 If True, checks if an instance id is provided.
                 (defaults to False)
-            - atn (bool):
+            - check_attr_name (bool):
                 If True, checks if an attribute name is provided.
                 (defaults to False)
-            - atv (bool):
+            - check_attr_val (bool):
                 If True, checks if an attribute value is provided.
                 (defaults to False)
 
@@ -361,11 +370,11 @@ def validate(arg, **kwargs):
         attr_name = args[2].strip("{'\":") if len(args) > 2 else ""
         attr_value = args[3].strip("'\"}") if len(args) > 3 else ""
 
-    if not attr_name and kwargs.get("atn", False):
+    if not attr_name and kwargs.get("check_attr_name", False):
         print(error_messages["no_attr_name"])
         return
 
-    if not attr_value and kwargs.get("atv", False):
+    if not attr_value and kwargs.get("check_attr_val", False):
         print(error_messages["no_attr_val"])
         return
 
