@@ -5,6 +5,7 @@ import unittest
 from datetime import datetime
 from models.city import City
 from models import FileStorage
+import time
 
 c1 = City()
 c2 = City(**c1.to_dict())
@@ -37,6 +38,7 @@ class TestCity(unittest.TestCase):
     def test_save(self):
         """Test method for save"""
         old_update = c1.updated_at
+        time.sleep(1)
         c1.save()
         self.assertNotEqual(c1.updated_at, old_update)
 

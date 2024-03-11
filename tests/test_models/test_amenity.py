@@ -8,6 +8,7 @@ from models import FileStorage
 from models.amenity import Amenity
 import time
 
+
 class TestAmenity(unittest.TestCase):
     """Test cases for the `Amenity` class."""
 

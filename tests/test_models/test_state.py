@@ -6,6 +6,7 @@ from models import storage
 from datetime import datetime
 from models.state import State
 from models import FileStorage
+import time
 
 
 class TestState(unittest.TestCase):
@@ -47,6 +48,7 @@ class TestState(unittest.TestCase):
         """Test method for save"""
         s1 = State()
         old_update = s1.updated_at
+        time.sleep(1)
         s1.save()
         self.assertNotEqual(s1.updated_at, old_update)
 

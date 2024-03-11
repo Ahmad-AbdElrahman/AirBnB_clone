@@ -5,6 +5,7 @@ import unittest
 from datetime import datetime
 from models.review import Review
 from models import FileStorage
+import time
 
 
 class TestReview(unittest.TestCase):
@@ -45,6 +46,7 @@ class TestReview(unittest.TestCase):
         """Test method for save"""
         r1 = Review()
         old_update = r1.updated_at
+        time.sleep(1)
         r1.save()
         self.assertNotEqual(r1.updated_at, old_update)
 
