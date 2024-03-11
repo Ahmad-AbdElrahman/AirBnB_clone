@@ -44,7 +44,6 @@ class TestConsole(unittest.TestCase):
 
     @classmethod
     def tearDown(cls):
-        # storage._FileStorage__objects = {}
         if os.path.exists(cls.console.file):
             os.remove(cls.console.file)
 
@@ -250,12 +249,10 @@ class TestConsoleDotNotation(unittest.TestCase):
 
     @classmethod
     def tearDown(cls):
-        # storage._FileStorage__objects = {}
         if os.path.exists(cls.console.file):
             os.remove(cls.console.file)
 
     def test_create(self):
-        """Test"""
         """Test the create method using the <class>.<method>() format."""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.default(f"{self.cls_name}.create()")
