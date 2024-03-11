@@ -75,7 +75,6 @@ class HBNBCommand(cmd.Cmd):
         -   line (str): The user input command string.
         """
         commands = {
-            # "create": self.do_create,
             "show": self.do_show,
             "update": self.do_update,
             "all": self.do_all,
