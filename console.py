@@ -75,12 +75,12 @@ class HBNBCommand(cmd.Cmd):
         -   line (str): The user input command string.
         """
         commands = {
-            "create": self.do_create,
-            "count": self.do_count,
+            # "create": self.do_create, 👈 WILL CREATE AN ISSUE WITH THE CHECKER!!!
             "all": self.do_all,
             "show": self.do_show,
-            "destroy": self.do_destroy,
+            "count": self.do_count,
             "update": self.do_update,
+            "destroy": self.do_destroy,
         }
 
         pattern = r"^(\w+)\.(\w+)\((.*)\)$"
@@ -118,26 +118,6 @@ class HBNBCommand(cmd.Cmd):
                 args, check_id=True, check_attr_name=True, check_attr_val=True
             )
             return
-
-    def do_reset(self, arg):
-        """
-        Resets the console screen.
-        """
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print(self.intro)
-
-    def do_quit(self, arg):
-        """Quit command to exit the program"""
-        return True
-
-    def do_EOF(self, arg):
-        """EOF signal to exit the program."""
-        print("")
-        return True
-
-    def emptyline(self):
-        """DO nothing upon receving an empty line."""
-        pass
 
     def do_create(self, arg):
         """
@@ -251,8 +231,8 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             return
 
-        cls_name = args["cls_name"]
         obj_id = args["obj_id"]
+        cls_name = args["cls_name"]
         attr_name = args["attr_name"]
         attr_value = args["attr_value"]
 
@@ -275,7 +255,7 @@ class HBNBCommand(cmd.Cmd):
         Args:
         -   arg (str): The user input argument (command to be interpreted).
         -   check_id (bool): Checks if an instance id is provided
-                             (defaults to True)
+                                (defaults to True)
         """
         args = validate(arg, check_id=check_id)
         if not args:
@@ -313,6 +293,25 @@ class HBNBCommand(cmd.Cmd):
                 else 0
             )
         print(nm_instances)
+
+    def do_reset(self, arg):
+        """
+        Resets the console screen.
+        """
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+    def do_quit(self, arg):
+        """Quit command to exit the program"""
+        return True
+
+    def do_EOF(self, arg):
+        """EOF signal to exit the program."""
+        print("")
+        return True
+
+    def emptyline(self):
+        """DO nothing upon receving an empty line."""
+        pass
 
 
 def validate(arg, **kwargs):
