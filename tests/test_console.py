@@ -36,17 +36,18 @@ class TestConsole(unittest.TestCase):
     -    Like : <method> <class> Ex : create BaseModel
     """
 
-    @classmethod
-    def setUp(cls):
+    # @classmethod
+    def setUp(self):
         """Initial setup for the class before all operations"""
-        cls.console = HBNBCommand()
-        cls.cls_name = "BaseModel"
+        self.console = HBNBCommand()
+        self.cls_name = "BaseModel"
 
-    @classmethod
-    def tearDown(cls):
+    # @classmethod
+    def tearDown(self):
+        # storage.__objects = {}
         """Tear down setup after all operations"""
-        if os.path.exists(cls.console.file):
-            os.remove(cls.console.file)
+        if os.path.exists(self.console.file):
+            os.remove(self.console.file)
 
     def test_create(self):
         """Test the create method"""
@@ -243,17 +244,18 @@ class TestConsoleDotNotation(unittest.TestCase):
     -    Like : <class>.<method>(). Ex : BaseModel.create()
     """
 
-    @classmethod
-    def setUp(cls):
+    # @classmethod
+    def setUp(self):
         """Initial setup for the class before all operations"""
-        cls.console = HBNBCommand()
-        cls.cls_name = "BaseModel"
+        self.console = HBNBCommand()
+        self.cls_name = "BaseModel"
 
-    @classmethod
-    def tearDown(cls):
+    # @classmethod
+    def tearDown(self):
+        # storage.__objects = {}
         """Tear down setup after all operations"""
-        if os.path.exists(cls.console.file):
-            os.remove(cls.console.file)
+        if os.path.exists(self.console.file):
+            os.remove(self.console.file)
 
     # def test_create(self):
     #     """Test the create method using the <class>.<method>() format."""
