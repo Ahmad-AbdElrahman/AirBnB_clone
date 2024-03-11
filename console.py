@@ -75,12 +75,12 @@ class HBNBCommand(cmd.Cmd):
         -   line (str): The user input command string.
         """
         commands = {
+            "update": self.do_update,
             "create": self.do_create,
             "count": self.do_count,
             "all": self.do_all,
             "show": self.do_show,
             "destroy": self.do_destroy,
-            # "update": self.do_update,
         }
 
         pattern = r"^(\w+)\.(\w+)\((.*)\)$"

@@ -44,7 +44,7 @@ class TestConsole(unittest.TestCase):
 
     @classmethod
     def tearDown(cls):
-        # storage._FileStorage__objects = {}
+        storage._FileStorage__objects = {}
         if os.path.exists(cls.console.file):
             os.remove(cls.console.file)
 
@@ -250,7 +250,7 @@ class TestConsoleDotNotation(unittest.TestCase):
 
     @classmethod
     def tearDown(cls):
-        # storage._FileStorage__objects = {}
+        storage._FileStorage__objects = {}
         if os.path.exists(cls.console.file):
             os.remove(cls.console.file)
 
