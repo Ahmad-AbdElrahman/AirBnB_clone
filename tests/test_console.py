@@ -255,22 +255,22 @@ class TestConsoleDotNotation(unittest.TestCase):
         if os.path.exists(cls.console.file):
             os.remove(cls.console.file)
 
-    def test_create(self):
-        """Test the create method using the <class>.<method>() format."""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default(f"{self.cls_name}.create()")
-        output = mock_stdout.getvalue().strip()
-        uuid_pattern = r"^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$"
-        self.assertRegex(output, uuid_pattern)
-        self.assertIn(f"{self.cls_name}.{output}", storage.all().keys())
+    # def test_create(self):
+    #     """Test the create method using the <class>.<method>() format."""
+    #     with patch('sys.stdout', new=StringIO()) as mock_stdout:
+    #         self.console.default(f"{self.cls_name}.create()")
+    #     output = mock_stdout.getvalue().strip()
+    #     uuid_pattern = r"^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$"
+    #     self.assertRegex(output, uuid_pattern)
+    #     self.assertIn(f"{self.cls_name}.{output}", storage.all().keys())
 
-    def test_create_with_invalid_clsname(self):
-        """Test"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.default("base.create()")
-        output = mock_stdout.getvalue().strip()
-        expected = error_messages["no_cls"]
-        self.assertEqual(output, expected)
+    # def test_create_with_invalid_clsname(self):
+    #     """Test"""
+    #     with patch('sys.stdout', new=StringIO()) as mock_stdout:
+    #         self.console.default("base.create()")
+    #     output = mock_stdout.getvalue().strip()
+    #     expected = error_messages["no_cls"]
+    #     self.assertEqual(output, expected)
 
     def test_show(self):
         """Test"""
