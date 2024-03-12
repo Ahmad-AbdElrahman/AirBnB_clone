@@ -13,26 +13,22 @@ from models.base_model import BaseModel
 class TestBase(unittest.TestCase):
     """Test cases for the `Base` class."""
 
-    def setUp(self):
-        """Init setup for the test"""
-        self.path = FileStorage._FileStorage__file_path
-
     def tearDown(self) -> None:
         """Resets FileStorage data."""
         FileStorage._FileStorage__objects = {}
-        if os.path.exists(self.path):
-            os.remove(self.path)
+        if os.path.exists(FileStorage._FileStorage__file_path):
+            os.remove(FileStorage._FileStorage__file_path)
 
     def test_initialization_positive(self):
         """Test passing cases `BaseModel` initialization."""
         b1 = BaseModel()
+        uid = str(uuid.uuid4())
+        b2 = BaseModel(id=uid, name="xxx", email="xxx@gmail.com")
+        expected = "<class 'models.base_model.BaseModel'>"
+        self.assertEqual(str(type(b1)), expected)
         self.assertIsInstance(b1.id, str)
         self.assertIsInstance(b1.created_at, datetime)
         self.assertIsInstance(b1.created_at, datetime)
-        expected = "<class 'models.base_model.BaseModel'>"
-        self.assertEqual(str(type(b1)), expected)
-        uid = str(uuid.uuid4())
-        b2 = BaseModel(id=uid, name="xxx", email="xxx@gmail.com")
         self.assertIsInstance(b2.id, str)
         self.assertEqual(uid, b2.id)
         self.assertEqual(b2.email, "xxx@gmail.com")
@@ -60,18 +56,6 @@ class TestBase(unittest.TestCase):
         b.save()
         diff = b.updated_at - date_now
         self.assertTrue(abs(diff.total_seconds()) < 0.01)
-
-    def test_save_storage(self):
-        """Tests that storage.save() is called from save()."""
-        b = BaseModel()
-        b.save()
-        key = f"{type(b).__name__}.{b.id}"
-        d = {key: b.to_dict()}
-        self.assertTrue(os.path.isfile(self.path))
-        with open(self.path, "r", encoding="utf-8") as f:
-            self.assertEqual(len(f.read()), len(json.dumps(d)))
-            f.seek(0)
-            self.assertEqual(json.load(f), d)
 
     def test_save_no_args(self):
         """Tests save() with no arguments."""

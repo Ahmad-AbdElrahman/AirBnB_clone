@@ -22,11 +22,11 @@ class TestState(unittest.TestCase):
         """Test"""
         s1 = State()
         s1.name = "Giza"
+        s2 = State("Zayed")
+        key = f"{type(s1).__name__}.{s1.id}"
+        self.assertEqual(s2.name, "")
         self.assertEqual(s1.name, "Giza")
         self.assertIsInstance(s1.name, str)
-        s2 = State("Zayed")
-        self.assertEqual(s2.name, "")
-        key = f"{type(s1).__name__}.{s1.id}"
         self.assertIn(key, storage.all())
 
     def test_init(self):

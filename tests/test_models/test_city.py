@@ -9,7 +9,6 @@ import time
 
 c1 = City()
 c2 = City(**c1.to_dict())
-c3 = City("Giza")
 
 
 class TestCity(unittest.TestCase):
@@ -23,10 +22,11 @@ class TestCity(unittest.TestCase):
 
     def test_params(self):
         """Test method for class attributes"""
+        c1.name = "Alex"
+        c3 = City("Giza")
+        self.assertEqual(c1.name, "Alex")
         self.assertIsInstance(c1.name, str)
         self.assertEqual(c3.name, "")
-        c1.name = "Alex"
-        self.assertEqual(c1.name, "Alex")
 
     def test_init(self):
         """Test method for public instances"""

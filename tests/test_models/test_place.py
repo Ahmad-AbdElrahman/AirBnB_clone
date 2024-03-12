@@ -22,11 +22,10 @@ class TestPlace(unittest.TestCase):
         """Test method for class attributes"""
         p1 = Place()
         p2 = Place("Cairo")
-        self.assertEqual(p2.name, "")
         k = f"{type(p1).__name__}.{p1.id}"
-        self.assertIsInstance(p1.name, str)
+        self.assertEqual(p2.name, "")
         self.assertIn(k, storage.all())
-
+        self.assertIsInstance(p1.name, str)
         self.assertIsInstance(p1.name, str)
         self.assertIsInstance(p1.user_id, str)
         self.assertIsInstance(p1.city_id, str)

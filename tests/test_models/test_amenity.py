@@ -22,8 +22,8 @@ class TestAmenity(unittest.TestCase):
         """Test method for class attributes"""
         a1 = Amenity()
         a2 = Amenity("Tv")
-        self.assertEqual(a2.name, "")
         key = f"{type(a1).__name__}.{a1.id}"
+        self.assertEqual(a2.name, "")
         self.assertIsInstance(a1.name, str)
         self.assertIn(key, storage.all())
 
