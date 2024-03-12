@@ -64,59 +64,117 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
     file = "hbnb.json"
 
-    def precmd(self, line):
+    # def precmd(self, line):
+    #     """
+    #     Handles cases where user commands are not recognized by HBNBCommand.
+
+    #     This method is invoked when the user enters a command
+    #     that doesn't match any of the defined functionalities in HBNBCommand.
+    #     It checks for a pattern matching "<class_name>.<method>(<args>)"
+    #     and attempts to call the corresponding do_* method if valid.
+    #     Otherwise, it prints an error message.
+
+    #     Args:
+    #     -   line (str): The user input command string.
+
+    #     Example:
+
+    #     >>>> (hbnb) User.update(some_user_id, {"name": "abc"})
+    #     >> 'update User 7993cdd5-1218-44dc-813e-97594bc228ba {"name": "abc"}'
+    #     """
+    #     if not line:
+    #         return ''
+
+    #     pattern = r"(\w+)\.(\w+)\((.*)\)"
+    #     matched = re.match(pattern, line.strip())
+    #     if not matched:
+    #         return super().precmd(line)
+
+    #     commands = ["create", "all", "show", "count", "update", "destroy"]
+    #     cmd = matched.groups()
+    #     args = ""
+    #     cls_name = cmd[0]
+    #     method = cmd[1]
+
+    #     if method not in commands:
+    #         print(error_messages["no_method"])
+    #         return ''
+
+    #     args = f"{method} {cls_name}"
+    #     if method in ("all", "create", "count"):
+    #         return args
+
+    #     obj_id = cmd[2]
+    #     args = f"{method} {cls_name} {obj_id}"
+    #     if method in ("show", "destroy"):
+    #         return args
+
+    #     obj_id = cmd[2].split(',')[0]
+    #     attr_name = cmd[2].split(',')[1] if len(cmd[2].split(',')) > 1 else ""
+    #     attr_value = cmd[2].split(',')[2] if len(cmd[2].split(',')) > 2 else ""
+    #     args = f"{method} {cls_name} {obj_id} {attr_name} {attr_value}"
+    #     if method == "update":
+    #         return args
+
+    #     return ''
+
+    def default(self, line):
         """
-        Handles cases where user commands are not recognized by HBNBCommand.
+        Handles cases where user commands are not recognized by HBNBConsole.
 
         This method is invoked when the user enters a command
-        that doesn't match any of the defined functionalities in HBNBCommand.
+        that doesn't match any of the defined functionalities in HBNBConsole.
         It checks for a pattern matching "<class_name>.<method>(<args>)"
         and attempts to call the corresponding do_* method if valid.
         Otherwise, it prints an error message.
 
         Args:
         -   line (str): The user input command string.
-
-        Example:
-
-        >>>> (hbnb) User.update(some_user_id, {"name": "abc"})
-        >> 'update User 7993cdd5-1218-44dc-813e-97594bc228ba {"name": "abc"}'
         """
-        if not line:
-            return ''
+        commands = {
+            # "create": self.do_create,
+            "count": self.do_count,
+            "all": self.do_all,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "update": self.do_update,
+        }
 
-        pattern = r"(\w+)\.(\w+)\((.*)\)"
-        matched = re.match(pattern, line.strip())
+        pattern = r"^(\w+)\.(\w+)\((.*)\)$"
+        matched = re.match(pattern, line)
+
         if not matched:
-            return super().precmd(line)
+            super().default(line)
+            return
 
-        commands = ["create", "all", "show", "count", "update", "destroy"]
         cmd = matched.groups()
         args = ""
-        cls_name = cmd[0]
         method = cmd[1]
+        cls_name = cmd[0]
 
         if method not in commands:
             print(error_messages["no_method"])
-            return ''
+            return
 
-        args = f"{method} {cls_name}"
         if method in ("all", "create", "count"):
-            return args
+            commands[method](cls_name)
+            return
 
         obj_id = cmd[2]
-        args = f"{method} {cls_name} {obj_id}"
+        args = f"{cls_name} {obj_id}"
         if method in ("show", "destroy"):
-            return args
+            commands[method](args, check_id=True)
+            return
 
         obj_id = cmd[2].split(',')[0]
         attr_name = cmd[2].split(',')[1] if len(cmd[2].split(',')) > 1 else ""
         attr_value = cmd[2].split(',')[2] if len(cmd[2].split(',')) > 2 else ""
-        args = f"{method} {cls_name} {obj_id} {attr_name} {attr_value}"
+        args = f"{cls_name} {obj_id} {attr_name} {attr_value}"
         if method == "update":
-            return args
-
-        return ''
+            commands[method](
+                args, check_id=True, check_attr_name=True, check_attr_val=True
+            )
+            return
 
     def do_create(self, arg):
         """
