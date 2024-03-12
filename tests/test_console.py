@@ -39,19 +39,19 @@ class TestConsole(unittest.TestCase):
     # @classmethod
     def setUp(self):
         """Initial setup for the class before all operations"""
-        self.console = HBNBCommand()
         self.cls_name = "BaseModel"
 
     # @classmethod
     def tearDown(self):
         """Tear down setup after all operations"""
-        if os.path.exists(self.console.file):
-            os.remove(self.console.file)
+        storage._FileStorage__objects = {}
+        if os.path.exists(HBNBCommand().file):
+            os.remove(HBNBCommand().file)
 
     def test_create(self):
         """Test the create method"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"create {self.cls_name}")
+            HBNBCommand().onecmd(f"create {self.cls_name}")
         output = mock_stdout.getvalue().strip()
         self.assertIsInstance(output, str)
         uuid_pattern = r"^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$"
@@ -61,7 +61,7 @@ class TestConsole(unittest.TestCase):
     def test_create_without_clsname(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd("create")
+            HBNBCommand().onecmd("create")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_cls_name"]
         self.assertEqual(output, expected)
@@ -69,7 +69,7 @@ class TestConsole(unittest.TestCase):
     def test_create_with_invalid_clsname(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd("create base")
+            HBNBCommand().onecmd("create base")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_cls"]
         self.assertEqual(output, expected)
@@ -78,14 +78,14 @@ class TestConsole(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"show {self.cls_name} {obj.id}")
+            HBNBCommand().onecmd(f"show {self.cls_name} {obj.id}")
             output = mock_stdout.getvalue().strip()
         self.assertEqual(output, obj.__str__())
 
     def test_show_without_clsname(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd("show")
+            HBNBCommand().onecmd("show")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_cls_name"]
         self.assertEqual(output, expected)
@@ -93,7 +93,7 @@ class TestConsole(unittest.TestCase):
     def test_show_with_invalid_clsname(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd("show base")
+            HBNBCommand().onecmd("show base")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_cls"]
         self.assertEqual(output, expected)
@@ -101,7 +101,7 @@ class TestConsole(unittest.TestCase):
     def test_show_with_invalid_id(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"show {self.cls_name} 123")
+            HBNBCommand().onecmd(f"show {self.cls_name} 123")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_obj"]
         self.assertEqual(output, expected)
@@ -111,7 +111,7 @@ class TestConsole(unittest.TestCase):
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
             cmd = f"update {self.cls_name} {obj.id} name \"xxx\""
-            self.console.onecmd(cmd)
+            HBNBCommand().onecmd(cmd)
         self.assertIn("name", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["name"], "xxx")
 
@@ -120,7 +120,7 @@ class TestConsole(unittest.TestCase):
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
             cmd = f"update {self.cls_name} {obj.id} age \"20\" color \"red\""
-            self.console.onecmd(cmd)
+            HBNBCommand().onecmd(cmd)
         self.assertIn("age", obj.__dict__.keys())
         self.assertNotIn("color", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["age"], "20")
@@ -130,14 +130,14 @@ class TestConsole(unittest.TestCase):
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
             cmd = f"update {self.cls_name} {obj.id} {{\"email\": \"xxx@gm\"}}"
-            self.console.onecmd(cmd)
+            HBNBCommand().onecmd(cmd)
         self.assertIn("email", obj.__dict__.keys())
         self.assertEqual(obj.__dict__["email"], "xxx@gm")
 
     def test_update_without_clsname(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"update")
+            HBNBCommand().onecmd(f"update")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_cls_name"]
         self.assertEqual(output, expected)
@@ -145,7 +145,7 @@ class TestConsole(unittest.TestCase):
     def test_update_with_invalid_clsname(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"update base")
+            HBNBCommand().onecmd(f"update base")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_cls"]
         self.assertEqual(output, expected)
@@ -153,7 +153,7 @@ class TestConsole(unittest.TestCase):
     def test_update_without_id(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"update {self.cls_name}")
+            HBNBCommand().onecmd(f"update {self.cls_name}")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_obj_id"]
         self.assertEqual(output, expected)
@@ -161,7 +161,7 @@ class TestConsole(unittest.TestCase):
     def test_update_with_invalid_id(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"update {self.cls_name} 123 age 20")
+            HBNBCommand().onecmd(f"update {self.cls_name} 123 age 20")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_obj"]
         self.assertEqual(output, expected)
@@ -170,7 +170,7 @@ class TestConsole(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"update {self.cls_name} {obj.id}")
+            HBNBCommand().onecmd(f"update {self.cls_name} {obj.id}")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_attr_name"]
         self.assertEqual(output, expected)
@@ -179,7 +179,7 @@ class TestConsole(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"update {self.cls_name} {obj.id} color")
+            HBNBCommand().onecmd(f"update {self.cls_name} {obj.id} color")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_attr_val"]
         self.assertEqual(output, expected)
@@ -187,7 +187,7 @@ class TestConsole(unittest.TestCase):
     def test_do_count(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"count {self.cls_name}")
+            HBNBCommand().onecmd(f"count {self.cls_name}")
         output = mock_stdout.getvalue()
         count = 0
         for i in storage.all().values():
@@ -199,13 +199,13 @@ class TestConsole(unittest.TestCase):
         """Test"""
         obj = classes[self.cls_name]()
         with patch('sys.stdout', new=StringIO()):
-            self.console.onecmd(f"destroy {self.cls_name} {obj.id}")
+            HBNBCommand().onecmd(f"destroy {self.cls_name} {obj.id}")
         self.assertNotIn(f"{self.cls_name}.{obj.id}", storage.all().keys())
 
     def test_destroy_without_clsname(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"destroy")
+            HBNBCommand().onecmd(f"destroy")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_cls_name"]
         self.assertEqual(output, expected)
@@ -213,7 +213,7 @@ class TestConsole(unittest.TestCase):
     def test_destroy_with_invalid_clsname(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"destroy base")
+            HBNBCommand().onecmd(f"destroy base")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_cls"]
         self.assertEqual(output, expected)
@@ -221,7 +221,7 @@ class TestConsole(unittest.TestCase):
     def test_destroy_without_id(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"destroy {self.cls_name}")
+            HBNBCommand().onecmd(f"destroy {self.cls_name}")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_obj_id"]
         self.assertEqual(output, expected)
@@ -229,7 +229,7 @@ class TestConsole(unittest.TestCase):
     def test_destroy_with_invalid_id(self):
         """Test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            self.console.onecmd(f"destroy {self.cls_name} 123")
+            HBNBCommand().onecmd(f"destroy {self.cls_name} 123")
         output = mock_stdout.getvalue().strip()
         expected = error_messages["no_obj"]
         self.assertEqual(output, expected)
@@ -246,14 +246,14 @@ class TestConsoleDotNotation(unittest.TestCase):
     # @classmethod
     def setUp(self):
         """Initial setup for the class before all operations"""
-        self.console = HBNBCommand()
         self.cls_name = "BaseModel"
 
     # @classmethod
     def tearDown(self):
         """Tear down setup after all operations"""
-        if os.path.exists(self.console.file):
-            os.remove(self.console.file)
+        storage._FileStorage__objects = {}
+        if os.path.exists(HBNBCommand().file):
+            os.remove(HBNBCommand().file)
 
     def test_create(self):
         """Test the create method using the <class>.<method>() format."""
