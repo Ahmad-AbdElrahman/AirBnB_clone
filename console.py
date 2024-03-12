@@ -116,6 +116,8 @@ class HBNBCommand(cmd.Cmd):
         if method == "update":
             return args
 
+        return ''
+
     def do_create(self, arg):
         """
         Creates a new instance, and saves it a JSON file.

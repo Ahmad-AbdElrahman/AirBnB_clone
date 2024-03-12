@@ -44,7 +44,6 @@ class TestConsole(unittest.TestCase):
     # @classmethod
     def tearDown(self):
         """Tear down setup after all operations"""
-        storage._FileStorage__objects = {}
         if os.path.exists(HBNBCommand().file):
             os.remove(HBNBCommand().file)
 
@@ -251,7 +250,6 @@ class TestConsoleDotNotation(unittest.TestCase):
     # @classmethod
     def tearDown(self):
         """Tear down setup after all operations"""
-        storage._FileStorage__objects = {}
         if os.path.exists(HBNBCommand().file):
             os.remove(HBNBCommand().file)
 
