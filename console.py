@@ -13,6 +13,7 @@ The console offers the following functionalities:
 - Deleting existing instances from the storage.
 - Counting the number of instances for each class.
 """
+import json
 import os
 import re
 import cmd
@@ -30,6 +31,7 @@ class ErrorMessages(TypedDict):
     no_obj: str
     no_attr_name: str
     no_attr_val: str
+    no_json: str
 
 
 error_messages: ErrorMessages = {
@@ -40,6 +42,7 @@ error_messages: ErrorMessages = {
     "no_obj": "** no instance found **",
     "no_attr_name": "** attribute name missing **",
     "no_attr_val": "** value missing **",
+    "no_json": "** invalid json object **",
 }
 
 
@@ -61,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
     file = "hbnb.json"
 
-    def default(self, line):
+    def precmd(self, line):
         """
         Handles cases where user commands are not recognized by HBNBCommand.
 
@@ -73,51 +76,38 @@ class HBNBCommand(cmd.Cmd):
 
         Args:
         -   line (str): The user input command string.
+
+        Example:
+
+        >>>> (hbnb) User.update(some_user_id, {"name": "abc"})
+        >> 'update User 7993cdd5-1218-44dc-813e-97594bc228ba {"name": "abc"}'
         """
-        commands = {
-            # "create": self.do_create,👈 WILL CREATE AN ISSUE WITH THE CHECKER
-            "all": self.do_all,
-            "show": self.do_show,
-            "count": self.do_count,
-            "update": self.do_update,
-            "destroy": self.do_destroy,
-        }
+        if not line:
+            return ''
 
-        pattern = r"^(\w+)\.(\w+)\((.*)\)$"
-        matched = re.match(pattern, line)
-
+        pattern = r"(\w+)\.(\w+)\((.*)\)"
+        matched = re.match(pattern, line.strip())
         if not matched:
-            super().default(line)
-            return
+            return super().precmd(line)
 
+        commands = ["create", "all", "show", "count", "update", "destroy"]
         cmd = matched.groups()
-        args = ""
-        method = cmd[1]
         cls_name = cmd[0]
+        method = cmd[1]
+        args = cmd[2] if len(cmd) > 2 else ""
+        obj_id = args.split(", ")[0] if args else ""
 
         if method not in commands:
             print(error_messages["no_method"])
-            return
+            return ""
 
-        if method in ("all", "create", "count"):
-            commands[method](cls_name)
-            return
+        attr_name = args.split(", ")[1] if len(args.split(", ")) > 1 else ""
+        attr_val = args.split(", ")[2] if len(args.split(", ")) > 2 else ""
 
-        obj_id = cmd[2]
-        args = f"{cls_name} {obj_id}"
-        if method in ("show", "destroy"):
-            commands[method](args, check_id=True)
-            return
+        if args.startswith('{') and args.endswith('}'):
+            return f"{method} {cls_name} {obj_id} {args}"
 
-        obj_id = cmd[2].split(',')[0]
-        attr_name = cmd[2].split(',')[1] if len(cmd[2].split(',')) > 1 else ""
-        attr_value = cmd[2].split(',')[2] if len(cmd[2].split(',')) > 2 else ""
-        args = f"{cls_name} {obj_id} {attr_name} {attr_value}"
-        if method == "update":
-            commands[method](
-                args, check_id=True, check_attr_name=True, check_attr_val=True
-            )
-            return
+        return f"{method} {cls_name} {obj_id} {attr_name} {attr_val}"
 
     def do_create(self, arg):
         """
@@ -341,8 +331,8 @@ def validate(arg, **kwargs):
     Raises:
     -   None (prints error messages to the console).
     """
-    args: list[str] = arg.split()
-    cls_name = args[0].strip("'\"") if args else ""
+    args = arg.split()
+    cls_name = args[0] if args else ""
     if not cls_name:
         print(error_messages["no_cls_name"])
         return
@@ -350,7 +340,7 @@ def validate(arg, **kwargs):
         print(error_messages["no_cls"])
         return
 
-    obj_id = args[1].strip("'\"") if len(args) > 1 else ""
+    obj_id = args[1] if len(args) > 1 else ""
     if not obj_id and kwargs.get("check_id", False):
         print(error_messages["no_obj_id"])
         return
@@ -358,24 +348,37 @@ def validate(arg, **kwargs):
     # logic to update using a dictionary like as input
     attributes = ""
     if len(args) > 2:
-        attributes = args[2]
-    if len(args) > 3:
-        attributes = ''.join(args[2:])
-    dict_pattern = r"^{([^:]+?):\s*(.*?)}.*$"
-    matched = re.search(dict_pattern, attributes)
+        attributes = ' '.join(args[2:])
+    json_pattern = r"{(.*?)}"
+    matched = re.findall(json_pattern, attributes)
+
+    attr_name = ""
+    attr_val = ""
     if matched:
-        attr_name, attr_value = matched.groups()
-        attr_name = attr_name.strip("{'\":")
-        attr_value = attr_value.strip("'\"}")
-    else:
-        attr_name = args[2].strip("{'\":") if len(args) > 2 else ""
-        attr_value = args[3].strip("'\"}") if len(args) > 3 else ""
+        payload = {}
+        try:
+            payload = json.loads(attributes)
+            attr_name = list(payload.keys())[0]
+            attr_name = (
+                attr_name.strip(",") if type(attr_name) is str else attr_name
+            )
+            attr_val = list(payload.values())[0]
+            attr_val = (
+                attr_val.strip(",") if type(attr_val) is str else attr_val
+            )
+        except Exception as e:
+            print(error_messages["no_json"])
+            return
+
+    if not matched:
+        attr_name = args[2].strip("{'\",:}") if len(args) > 2 else ""
+        attr_val = args[3].strip("{'\",:}") if len(args) > 3 else ""
 
     if not attr_name and kwargs.get("check_attr_name", False):
         print(error_messages["no_attr_name"])
         return
 
-    if not attr_value and kwargs.get("check_attr_val", False):
+    if not attr_val and kwargs.get("check_attr_val", False):
         print(error_messages["no_attr_val"])
         return
 
@@ -383,7 +386,7 @@ def validate(arg, **kwargs):
         "obj_id": obj_id,
         "cls_name": cls_name,
         "attr_name": attr_name,
-        "attr_value": attr_value,
+        "attr_value": attr_val,
     }
 
 
