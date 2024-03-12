@@ -90,24 +90,28 @@ class HBNBCommand(cmd.Cmd):
         if not matched:
             return super().precmd(line)
 
-        commands = ["create", "all", "show", "count", "update", "destroy"]
         cmd = matched.groups()
-        cls_name = cmd[0]
-        method = cmd[1]
-        args = cmd[2] if len(cmd) > 2 else ""
-        obj_id = args.split(", ")[0] if args else ""
+        cls_name = cmd[1]
+        method = cmd[0]
+        if len(cmd) < 3:
+            return f"{cls_name} {method}"
+        args = cmd[2].split(", ")
 
-        if method not in commands:
-            print(error_messages["no_method"])
-            return ""
+        if len(args) == 1:
+            obj_id = re.sub("[\"\']", "", cmd[2])
+            return f"{cls_name} {method} {obj_id}"
 
-        attr_name = args.split(", ")[1] if len(args.split(", ")) > 1 else ""
-        attr_val = args.split(", ")[2] if len(args.split(", ")) > 2 else ""
+        match_json = re.findall(r"{.*}", cmd[2])
 
-        if args.startswith('{') and args.endswith('}'):
-            return f"{method} {cls_name} {obj_id} {args}"
+        if match_json:
+            obj_id = re.sub("[\"\']", "", args[0])
+            attr_name = re.sub("\'", "\"", match_json[0])
+            return f"{cls_name} {method} {obj_id} {attr_name}"
 
-        return f"{method} {cls_name} {obj_id} {attr_name} {attr_val}"
+        obj_id = re.sub("[\"\']", "", args[0])
+        attr_name = re.sub("[\"\']", "", args[1])
+        attr_value = args[2] if len(args) > 2 else ""
+        return f"{cls_name} {method} {obj_id} {attr_name} {attr_value}"
 
     def do_create(self, arg):
         """
