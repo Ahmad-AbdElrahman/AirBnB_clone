@@ -1,14 +1,17 @@
 header {
+	background-color: white;
+	border-bottom: 1px solid #CCCCCC;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	height: 70px;
 	width: 100%;
-	background-color: white;
-	border-bottom: 1px var(--light-gray-500) solid;
 }
 
 header .logo {
 	background-image: url('../images/logo.png');
 	background-repeat: no-repeat;
-	background-position: left;
+	height: 60px;
 	margin-left: 20px;
-	height: 100%;
+	width: 142px;
 }

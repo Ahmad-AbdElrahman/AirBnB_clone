@@ -1,99 +1,96 @@
-.filters {
-	background-color: white;
-	height: 70px;
-	border: 1px solid var(--light-gray-400);
-	border-radius: 4px;
-	display: flex;
+section.filters {
 	align-items: center;
-	box-shadow: 1px 1px 3px var(--light-gray-400);
+	display: flex;
+	background-color: white;
+	border: 1px solid #DDDDDD;
+	border-radius: 4px;
+	height: 70px;
+	width: 100%;
+	position: relative;
 }
 
-.filters button {
-	font-size: var(--fs-500);
-	background-color: var(--light-red);
-	color: white;
+div.locations,
+div.amenities {
+	padding: 0 30px;
+	height: 100%;
+	width: 25%;
+}
+
+div.locations {
+	border-right: 1px solid #DDDDDD;
+}
+
+div.locations:hover .popover,
+div.amenities:hover .popover {
+	display: block;
+}
+
+h2 {
+	font-size: 16px;
+}
+
+h3.filter-title {
+	font-weight: 600;
+	margin: 10px 0px 0px 0px;
+}
+
+h4.filter-description {
+	font-size: 14px;
+	font-weight: 400;
+	margin: 0;
+}
+
+.btn {
+	color: #FFFFFF;
+	background-color: #FF5A5F;
+	border: 0;
+	border-radius: 4px;
+	font-size: 18px;
 	height: 48px;
 	width: 20%;
-	border-radius: 4px;
+}
+
+.btn-filters {
 	margin-left: auto;
 	margin-right: 30px;
 }
 
-.filters button:hover {
+.btn-filters:hover {
 	opacity: 90%;
 }
 
-.filters div:first-child {
-	border-right: 1px solid var(--light-gray-400);
+ul {
+	list-style: none;
 }
 
-.filters .locations,
-.filters .amenities {
-	position: relative;
-	width: 25%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+li {
+	line-height: 25px;
 }
 
-.filters .locations h3,
-.filters .amenities h3 {
-	font-weight: 600;
-	margin-left: 40px;
-}
-
-.filters .locations h4,
-.filters .amenities h4 {
-	font-weight: 400;
-	margin-left: 40px;
-	font-size: var(--fs-300);
-}
-
-.filters .popover,
-.filters .popover {
-	display: none;
-	position: absolute;
-	z-index: 999;
-	top: 100%;
-	width: 100%;
-	background-color: var(--light-gray-100);
-	border: 1px solid var(--light-gray-400);
-	border-radius: 0 0 4px;
-	padding: 40px 20px;
-	box-shadow: 1px 1px 3px var(--light-gray-400);
-}
-
-.filters .popover li h2 {
-	font-size: var(--fs-400);
-	margin-bottom: 10px;
-}
-
-.filters .locations .popover li p {
-	margin-left: 20px;
-}
-
-.filters .amenities .popover li {
-	margin-left: 20px;
-}
-
-.filters .locations .popover li:not(:last-child) {
+li.popover-item {
 	margin-bottom: 20px;
 }
 
-.filters .locations .popover li p {
-	cursor: pointer;
+ul.popover {
+	background-color: #FAFAFA;
+	border: 1px solid #DDDDDD;
+	border-radius: 4px;
+	display: none;
+	margin: 22px -30px 0px -30px;
+	padding: 20px 30px;
+	z-index: 999999999999999999;
 }
 
-.filters .locations .popover li p:not(:last-child) {
-	margin-bottom: 5px;
+ul.popover-aligned {
+	padding-left: 50px;
 }
 
-.filters .amenities .popover li:not(:last-child) {
-	margin-bottom: 5px;
+ul.popover-items {
+	padding-left: 15px;
 }
 
-.filters .locations:hover .popover,
-.filters .amenities:hover .popover {
-	display: block;
+h2.popover-state {
+	margin: 0px;
 }
+
+

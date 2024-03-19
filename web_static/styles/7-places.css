@@ -1,30 +1,25 @@
-.places {
+section.places {
 	display: flex;
-	flex-direction: column;
-}
-
-.places h1 {
-	margin-top: 30px;
-	font-size: var(--fs-900);
-}
-
-.places .container {
-	display: flex;
-	flex-wrap: wrap;
+	flex-flow: row wrap;
 	justify-content: center;
 }
 
-.places article {
+section.places h1 {
+	font-size: 30px;
+	margin-left: 20px;
+	width: 100%;
+}
+
+article {
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 390px;
+	border: 1px solid #FF5A5F;
+	border-radius: 4px;
 	margin: 20px;
 	padding: 20px;
-	border: 1px var(--light-red) solid;
-	border-radius: 4px;
+	width: 390px;
+	justify-content: center;
 }
 
-.places article h2 {
-	font-size: font-size: var(--fs-600);
+article h2 {
+	font-size: 30px;
 }
